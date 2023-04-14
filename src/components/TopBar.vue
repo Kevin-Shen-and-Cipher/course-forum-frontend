@@ -6,10 +6,10 @@
             </v-avatar>
         </v-toolbar-title>
         <v-btn v-if="button_login" variant="outlined" color="rgba(70, 105,147, 1)" @click="login">
-            login
+            登入
         </v-btn>
-        <v-btn v-else v-show="visible" variant="outlined" color="rgba(70, 105,147, 1)" @click="login">
-            login
+        <v-btn v-else v-show="visible" variant="outlined" color="rgba(70, 105,147, 1)" @click="back_main">
+            返回首頁
         </v-btn>
     </v-app-bar>
 </template>
