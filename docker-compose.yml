@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  temple-dashboard-frontend:
+    container_name: course-forum
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run dev
+    volumes:
+      - /home/node/app/node_modules
+      - .:/home/node/app
+    ports:
+      - "5173:5173"
+    tty: true
+
+networks:
+  default:
