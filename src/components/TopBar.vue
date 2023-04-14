@@ -24,7 +24,7 @@ export default {
     },
     computed: {
         button_login() {
-            return this.$route.path === '/login';
+            return this.$route.path !== '/login';
         },
         visible(){
             return false;
@@ -33,6 +33,9 @@ export default {
     methods: {
         login() {
             this.$router.push('/login')
+        },
+        back_main(){
+            this.$router.push("/")
         }
     }
 }
