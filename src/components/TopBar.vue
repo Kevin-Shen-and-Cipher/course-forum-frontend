@@ -8,7 +8,7 @@
         <v-btn v-if="button_login" variant="outlined" color="rgba(70, 105,147, 1)" @click="login">
             登入
         </v-btn>
-        <v-btn v-else v-show="visible" variant="outlined" color="rgba(70, 105,147, 1)" @click="back_main">
+        <v-btn v-else variant="outlined" color="rgba(70, 105,147, 1)" @click="back_main">
             返回首頁
         </v-btn>
     </v-app-bar>
@@ -25,9 +25,6 @@ export default {
     computed: {
         button_login() {
             return this.$route.path !== '/login';
-        },
-        visible(){
-            return false;
         }
     },
     methods: {
