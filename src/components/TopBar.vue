@@ -5,35 +5,29 @@
                 <img :src="BarLogo" alt="Logo" style="float: left;">
             </v-avatar>
         </v-toolbar-title>
-        <v-btn v-if="button_login" variant="outlined" color="rgba(70, 105,147, 1)" @click="login">
+        <v-btn v-if="!loginButton" variant="outlined" color="rgba(70, 105,147, 1)" @click="sendLogin">
             登入
         </v-btn>
-        <v-btn v-else variant="outlined" color="rgba(70, 105,147, 1)" @click="back_main">
+        <v-btn v-else variant="outlined" color="rgba(70, 105,147, 1)" @click="backMain">
             返回首頁
         </v-btn>
     </v-app-bar>
 </template>
-<script>
-import BarLogo from "@/assets/topbar_logo.png"
+<script setup>
+import BarLogo from "@/assets/topbar_logo.png";
+import router from "@/router/router";
+import {useRoute} from 'vue-router'
+import {computed} from "vue";
 
-export default {
-    data() {
-        return {
-            BarLogo: BarLogo
-        }
-    },
-    computed: {
-        button_login() {
-            return this.$route.path !== '/login';
-        }
-    },
-    methods: {
-        login() {
-            this.$router.push('/login')
-        },
-        back_main(){
-            this.$router.push("/")
-        }
-    }
+const route = useRoute();
+const loginButton = computed(() => route.path === "/login");
+
+function sendLogin() {
+    router.replace("/login");
 }
+
+function backMain() {
+    router.push("/");
+}
+
 </script>
