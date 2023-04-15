@@ -13,15 +13,8 @@
         </div>
     </v-app>
 </template>
-<script>
+<script setup>
 import {RouterView} from 'vue-router';
 import Footer from '@/components/Footer.vue';
-import TopBar from "./components/TopBar.vue";
+import TopBar from "@/components/TopBar.vue";
 
-export default {
-    components: {
-        Footer,
-        TopBar
-    }
-}
-</script>
