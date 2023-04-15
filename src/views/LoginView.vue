@@ -1,7 +1,7 @@
 <template>
-        <v-row align="center" justify="center">
-            <login/>
-        </v-row>
+    <v-row align="center" justify="center">
+        <login/>
+    </v-row>
 </template>
 
 <script setup>
