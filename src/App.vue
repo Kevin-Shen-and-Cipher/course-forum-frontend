@@ -19,20 +19,13 @@
 </template>
 <<<<<<< HEAD
 <script setup>
+<<<<<<< HEAD
+import {RouterView} from 'vue-router';
+import Footer from '@/components/Footer.vue';
+import TopBar from "@/components/TopBar.vue";
+
+=======
     import {RouterView} from 'vue-router';
     import Footer from '@/components/Footer.vue';
     import TopBar from "@/components/TopBar.vue";
-=======
-<script>
-import {RouterView} from 'vue-router';
-import Footer from '@/components/Footer.vue';
-import TopBar from "./components/TopBar.vue";
-
-export default {
-    components: {
-        Footer,
-        TopBar
-    }
-}
->>>>>>> f10a358 (feat: change template flex)
 </script>
