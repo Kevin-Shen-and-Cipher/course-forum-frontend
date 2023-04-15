@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <div class="d-flex flex-column" style = "height: 100%">
+        <div class="d-flex flex-column" style="height: 100%">
             <div class="d-flex flex-column" style="height: 64px">
                 <top-bar/>
             </div>
@@ -14,7 +14,14 @@
     </v-app>
 </template>
 <script setup>
+<<<<<<< HEAD
 import {RouterView} from 'vue-router';
 import Footer from '@/components/Footer.vue';
 import TopBar from "@/components/TopBar.vue";
 
+=======
+    import {RouterView} from 'vue-router';
+    import Footer from '@/components/Footer.vue';
+    import TopBar from "@/components/TopBar.vue";
+</script>
+>>>>>>> dev
