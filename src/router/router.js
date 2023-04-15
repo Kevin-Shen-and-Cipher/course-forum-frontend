@@ -6,12 +6,12 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: () => import("@/views/Home.vue")
     },
     {
         path: '/login',
         name: 'login',
-        component: Login
+        component: () => import("@/views/LoginView.vue")
     }
 ];
 
