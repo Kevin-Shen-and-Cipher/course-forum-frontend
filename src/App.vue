@@ -14,14 +14,7 @@
     </v-app>
 </template>
 <script setup>
-<<<<<<< HEAD
 import {RouterView} from 'vue-router';
 import Footer from '@/components/Footer.vue';
 import TopBar from "@/components/TopBar.vue";
-
-=======
-    import {RouterView} from 'vue-router';
-    import Footer from '@/components/Footer.vue';
-    import TopBar from "@/components/TopBar.vue";
 </script>
->>>>>>> dev
