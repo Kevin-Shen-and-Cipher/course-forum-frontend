@@ -1,20 +1,23 @@
 <template>
     <v-app>
-        <v-container style="height: 100%;width: 100%">
-            <top-bar/>
-            <v-row style="height: 95%">
+        <div class="d-flex flex-column" style = "height: 100%">
+            <div class="d-flex flex-column" style="height: 64px">
+                <top-bar/>
+            </div>
+            <div class="d-flex" style="height: 100%;margin: 20px">
                 <router-view/>
-            </v-row>
-            <v-row align="end" style="height: 5%;">
+            </div>
+            <div class="d-flex" style="height: 64px">
                 <Footer/>
-            </v-row>
-        </v-container>
+            </div>
+        </div>
     </v-app>
 </template>
 <script>
 import {RouterView} from 'vue-router';
 import Footer from '@/components/Footer.vue';
 import TopBar from "./components/TopBar.vue";
+
 export default {
     components: {
         Footer,
