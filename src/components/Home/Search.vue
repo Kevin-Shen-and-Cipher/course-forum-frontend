@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-center align-center" style="width: 400px;height: 90px; padding-top: 30px">
+    <div class="d-flex justify-center align-center search">
         <v-text-field
                 :loading="loading"
                 density="compact"
@@ -12,26 +12,23 @@
         ></v-text-field>
     </div>
 </template>
-<script>
-export default {
-    data: () => ({
-        loaded: false,
-        loading: false,
-    }),
-    methods: {
-        onClick() {
-            this.loading = true
+<script setup>
+import {ref} from "vue";
 
-            setTimeout(() => {
-                this.loading = false
-                this.loaded = true
-            }, 2000)
-        },
-    },
+const loaded = ref(false);
+const loading = ref(false);
+
+function onClick() {
+    loading.value = true;
+    setTimeout(() => {
+        loading.value = false;
+        loaded.value = true;
+    }, 2000);
 }
 </script>
 <style>
 .search {
     width: 400px;
+    height: 90px;
 }
 </style>
