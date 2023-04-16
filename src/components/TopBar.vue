@@ -15,12 +15,12 @@
 </template>
 <script setup>
 import BarLogo from "@/assets/topbar_logo.png";
-import router from "@/router/router";
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import {computed} from "vue";
 
 const route = useRoute();
-const loginButton = computed(() => route.path === "/login");
+const router = useRouter();
+const loginButton = computed(() => route.name === "/login");
 
 function sendLogin() {
     router.replace("/login");
