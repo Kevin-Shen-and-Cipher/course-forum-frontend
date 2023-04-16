@@ -3,7 +3,7 @@
         <div class="d-flex flex-column align-center">
             <Search/>
             <div class="scroll-container light">
-                <Post v-for="i in 50"/>
+                <Post v-for="i in 50" :id = "i"/>
             </div>
         </div>
     </div>
