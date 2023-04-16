@@ -2,8 +2,7 @@
     <div class="post d-flex">
     </div>
 </template>
-<script>
-export default {}
+<script setup>
 </script>
 <style>
 .post {
