@@ -18,8 +18,8 @@
                 </div>
             </v-card>
         </div>
-        <div class="d-flex align-center justify-center" style="width: 25%">
-            <div class="d-flex flex-column align-center justify-center" style="width: 40%">
+        <div class="d-flex align-center justify-end" style="width: 25%">
+            <div class="d-flex flex-column align-center justify-center" style="width: 60%">
                 <a>20</a>
                 <a>Views</a>
             </div>
