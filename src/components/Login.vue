@@ -27,7 +27,7 @@
 
 <script setup>
 import {ref} from "vue";
-import {useRouter} from 'vue-router'
+import {useRouter} from 'vue-router';
 
 const username = ref("");
 const password = ref("");
@@ -39,7 +39,8 @@ function login() {
 
 
 </script>
-<style>
+
+<style scoped>
 .card-text {
     height: 175px;
     padding-top: 10px;

@@ -8,5 +8,5 @@
 import Login from "@/components/Login.vue";
 </script>
 
-<style>
+<style scoped>
 </style>
