@@ -26,7 +26,7 @@ function onClick() {
     }, 2000);
 }
 </script>
-<style>
+<style scoped>
 .search {
     width: 400px;
     height: 90px;

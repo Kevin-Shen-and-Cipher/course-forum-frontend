@@ -37,11 +37,7 @@ onMounted(() => {
 });
 >>>>>>> b96c342 (feat: change title in app.vue)
 </script>
-<style>
-body::-webkit-scrollbar {
-    display: none;
-}
-
+<style scoped>
 .main-section {
     height: calc(90vh - 100px);
     margin: 20px
