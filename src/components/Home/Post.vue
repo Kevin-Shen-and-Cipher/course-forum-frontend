@@ -23,12 +23,6 @@
                 <a>20</a>
                 <a>Views</a>
             </div>
-            <div class="d-flex flex-column align-center" style="height: 80%;border-right: 2px solid black;">
-            </div>
-            <div class="d-flex flex-column align-center justify-center" style="width: 40%">
-                <a>20</a>
-                <a>Likes</a>
-            </div>
         </div>
     </div>
 </template>
