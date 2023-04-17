@@ -7,20 +7,20 @@
             <v-card color="transparent" border="0" variant="tonal">
                 <div class="v-card__text">
                     <v-card-title>
-                        posts-title
+                        {{ title }}
                     </v-card-title>
                     <v-card-subtitle>
-                        time
+                        {{ update_at.substring(0, 10) }}
                     </v-card-subtitle>
                     <v-card-text>
-                        content
+                        {{ content }}
                     </v-card-text>
                 </div>
             </v-card>
         </div>
         <div class="d-flex align-center justify-end" style="width: 25%">
             <div class="d-flex flex-column align-center justify-center" style="width: 60%">
-                <a>20</a>
+                <a>{{ views }}</a>
                 <a>Views</a>
             </div>
         </div>
@@ -28,19 +28,37 @@
 </template>
 <script setup>
 import router from "@/router/router";
+import {tr} from "vuetify/locale";
 
 const props = defineProps({
-    id: {
-        type: String,
-        required: true
-    }
-});
+        id: {
+            type: Number,
+            required: true
+        },
+        title: {
+            type: String,
+            required: true
+        },
+        update_at: {
+            type: String,
+            required: true
+        },
+        content: {
+            type: String,
+            required: true
+        },
+        views: {
+            type: Number,
+            required: true
+        }
+    })
+;
 
 function inPost() {
     router.push("/posts/" + props.id);
 }
 </script>
-<style>
+<style scoped>
 .post {
     background-color: rgba(232, 230, 230, 1);
     height: 150px;
