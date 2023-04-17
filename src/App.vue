@@ -23,11 +23,7 @@ onMounted(() => {
     document.title = import.meta.env.VITE_APP_TITLE;
 });
 </script>
-<style>
-body::-webkit-scrollbar {
-    display: none;
-}
-
+<style scoped>
 .main-section {
     height: calc(90vh - 100px);
     margin: 20px
