@@ -39,6 +39,7 @@ function login() {
 
 
 </script>
+
 <style scoped>
 .card-text {
     height: 175px;
