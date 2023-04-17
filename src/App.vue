@@ -17,6 +17,11 @@
 import {RouterView} from 'vue-router';
 import Footer from '@/components/Footer.vue';
 import TopBar from "@/components/TopBar.vue";
+import {onMounted} from "vue";
+
+onMounted(() => {
+    document.title = import.meta.env.VITE_APP_TITLE;
+});
 </script>
 <style>
 body::-webkit-scrollbar {
