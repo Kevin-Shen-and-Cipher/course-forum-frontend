@@ -20,7 +20,7 @@ import {computed} from "vue";
 
 const route = useRoute();
 const router = useRouter();
-const loginButton = computed(() => route.name === "/login");
+const loginButton = computed(() => route.name === "login");
 
 function sendLogin() {
     router.replace("/login");
