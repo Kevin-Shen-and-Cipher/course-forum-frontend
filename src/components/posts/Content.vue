@@ -12,12 +12,14 @@
             />
         </div>
         <div class="content d-flex flex-column" style="height: 90%;">
-            <div class="d-flex align-center">
+            <div class="d-flex align-center justify-space-between mb-6">
                 <v-label :text=postData.data.title style="font-size: 32pt;margin: 10px 0px;"></v-label>
-                <v-rating
-                        v-model="rating"
-                        readonly
-                ></v-rating>
+                <div class="d-flex ">
+                    <v-rating
+                            v-model="rating"
+                            readonly
+                    ></v-rating>
+                </div>
             </div>
 
             <v-field style="font-size: 16pt; color: black" variant="plain">
@@ -38,9 +40,10 @@ const postData = reactive({
     data: null,
     error: null
 });
+
 onBeforeMount(async () => {
     try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts/" + route.params.id);
+        const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts/" + route.params.key);
         postData.data = response.data;
         rating.value = postData.data.score;
     } catch (error) {
