@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .main-section {
-    height: calc(90vh - 100px);
+    height: calc(90vh - 50px);
     margin: 20px
 }
 </style>
