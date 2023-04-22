@@ -73,24 +73,28 @@ function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
 }
 
-watch(chips, (newVal, oldVal) => {
-    if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
-        chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
-    }
-})
+function handleChipsChange(newVal, oldVal) {
+  if (newVal.length > oldVal.length) {
+    const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
+    chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
+  }
+}
 
-onMounted(async () => {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/tags")
-        for (const i of response.data) {
-            tags.value.push(i.name);
-        }
-    } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+watch(chips, handleChipsChange);
+
+async function fetchTags() {
+  try {
+    const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/tags");
+    for (const i of response.data) {
+      tags.value.push(i.name);
     }
-})
+  } catch (error) {
+    console.log(error);
+    await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+  }
+}
+
+onMounted(fetchTags);
 </script>
 
 <style scoped>

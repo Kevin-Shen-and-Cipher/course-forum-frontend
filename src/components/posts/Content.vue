@@ -21,7 +21,6 @@
                     ></v-rating>
                 </div>
             </div>
-
             <v-field style="font-size: 16pt; color: black" variant="plain">
                 {{ postData.data.content }}
             </v-field>
@@ -41,7 +40,7 @@ const postData = reactive({
     error: null
 });
 
-onBeforeMount(async () => {
+async function fetchPostData(){
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts/" + route.params.id);
         postData.data = response.data;
@@ -50,7 +49,9 @@ onBeforeMount(async () => {
         console.log(error);
         await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
     }
-})
+}
+
+onBeforeMount(fetchPostData);
 
 
 </script>
