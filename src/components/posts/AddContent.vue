@@ -28,7 +28,7 @@
             </div>
             <div class="d-flex">
                 <label class="d-flex align-self-end justify-start"
-                       style="padding-left: 10px;width: 65%; font-size: 14pt">資訊工程系 &nbsp;&nbsp;&nbsp; {{ date }}</label>
+                       style="padding-left: 10px;width: 60%; font-size: 14pt">資訊工程系 &nbsp;&nbsp;&nbsp; {{ showDate }}</label>
                 <div class="d-flex align-center">
                     <label style="font-size: 14pt">設定課程評分：</label>
                     <v-rating
@@ -63,8 +63,8 @@ import axios from "axios";
 
 const router = useRouter();
 const rating = ref(0);
-const date = new Date().toJSON().slice(0,10);
-
+const date = new Date();
+const showDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
 
 const chips = ref([]);
 const tags = ref([]);
