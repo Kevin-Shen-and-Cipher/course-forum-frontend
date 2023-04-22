@@ -43,12 +43,12 @@ const postData = reactive({
 
 onBeforeMount(async () => {
     try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts/" + route.params.key);
+        const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts/" + route.params.id);
         postData.data = response.data;
         rating.value = postData.data.score;
     } catch (error) {
         console.log(error);
-        router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
     }
 })
 
