@@ -34,12 +34,11 @@ const password = ref("");
 const router = useRouter();
 
 function login() {
-    router.push("/");
+    router.push("/home");
 }
 
 
 </script>
-
 <style scoped>
 .card-text {
     height: 175px;

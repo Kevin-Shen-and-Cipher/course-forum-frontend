@@ -15,6 +15,9 @@
                     <v-card-text>
                         {{ content }}
                     </v-card-text>
+                    <a v-for="i in tag">
+                        {{ i.name }}
+                    </a>
                 </div>
             </v-card>
         </div>
@@ -28,7 +31,6 @@
 </template>
 <script setup>
 import router from "@/router/router";
-import {tr} from "vuetify/locale";
 
 const props = defineProps({
         id: {
@@ -50,7 +52,8 @@ const props = defineProps({
         views: {
             type: Number,
             required: true
-        }
+        },
+        tag: Object
     })
 ;
 
