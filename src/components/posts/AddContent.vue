@@ -88,7 +88,7 @@ onMounted(async () => {
         }
     } catch (error) {
         console.log(error);
-        router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
     }
 })
 </script>

@@ -16,9 +16,14 @@ const routes = [
         component: () => import("@/views/LoginView.vue")
     },
     {
-        path: '/posts/:key',
+        path: '/posts/:id',
         name: 'posts',
-        component: (key) => import("@/views/PostView.vue")
+        component: (id) => import("@/views/PostView.vue")
+    },
+    {
+        path: '/posts/add',
+        name: 'AddPosts',
+        component: () => import("@/views/AddPostView.vue")
     },
     {
         path: "/error",

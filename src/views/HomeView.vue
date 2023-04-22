@@ -19,7 +19,7 @@
 
         <div class="d-flex justify-center align-end" style="width: 100%">
             <div class="d-flex align-center" style="height: 20%">
-                <v-btn class="add-post-btn" icon="mdi-plus" size="large" color="#D9D9D9"></v-btn>
+                <v-btn class="add-post-btn" icon="mdi-plus" size="large" color="#D9D9D9" @click="addPost"></v-btn>
             </div>
         </div>
     </div>
@@ -40,13 +40,17 @@ const posts = reactive({
     error: null
 })
 
+async function addPost() {
+    await router.push('/posts/add');
+}
+
 onMounted(async () => {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts")
         posts.data = response.data
     } catch (error) {
         posts.error = error;
-        router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        await router.push({path: import.meta.env.VITE_APP_ERROR_ROUTER});
     }
 })
 
