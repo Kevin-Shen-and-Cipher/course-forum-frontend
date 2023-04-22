@@ -23,7 +23,7 @@ const router = useRouter();
 const loginButton = computed(() => route.name === "login");
 
 function sendLogin() {
-    router.replace("/login");
+    router.push("/login");
 }
 
 function backMain() {

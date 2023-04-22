@@ -34,7 +34,7 @@ const password = ref("");
 const router = useRouter();
 
 function login() {
-    router.push("/");
+    router.push("/home");
 }
 
 
