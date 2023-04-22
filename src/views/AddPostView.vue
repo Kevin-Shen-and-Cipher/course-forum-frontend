@@ -62,8 +62,3 @@ input:active {
     font-size: 40px;
 }
 </style>
-
-.my-custom-textarea >>> .v-textarea__slot {
-    font-size: 40px;
-}
-</style>
