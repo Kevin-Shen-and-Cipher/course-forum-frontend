@@ -45,7 +45,7 @@ async function addPost() {
     await router.push('/posts/add');
 }
 
-onMounted(async () => {
+async function fetchPosts(){
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts")
         posts.data = response.data
@@ -53,7 +53,9 @@ onMounted(async () => {
         posts.error = error;
         await router.push({path: import.meta.env.VITE_APP_ERROR_ROUTER});
     }
-})
+}
+
+onMounted(fetchPosts);
 
 </script>
 
