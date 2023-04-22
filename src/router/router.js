@@ -3,6 +3,10 @@ import {createRouter, createWebHistory} from 'vue-router';
 const routes = [
     {
         path: '/',
+        redirect: '/home'
+    },
+    {
+        path: '/home',
         name: 'Home',
         component: () => import("@/views/HomeView.vue")
     },
@@ -12,9 +16,9 @@ const routes = [
         component: () => import("@/views/LoginView.vue")
     },
     {
-        path: '/posts/:id',
+        path: '/posts/:key',
         name: 'posts',
-        component: (id) => import("@/views/PostView.vue")
+        component: (key) => import("@/views/PostView.vue")
     },
     {
         path: "/error",
