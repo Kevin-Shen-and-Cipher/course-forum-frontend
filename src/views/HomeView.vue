@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-center" style="width: 100%;">
-        <div class="d-flex justify-start flex-column" style="width: 15%; height: 100%">
+        <div class="d-flex justify-start flex-column" style=" width: 100%;height: 100%">
             <div class="d-flex" style="height: 100px"></div>
         </div>
         <div class="d-flex flex-column align-center justify-center">
@@ -16,7 +16,11 @@
                 />
             </div>
         </div>
-        <div class="d-flex justify-center" style="width: 15%">
+
+        <div class="d-flex justify-center align-end" style="width: 100%">
+            <div class="d-flex align-center" style="height: 20%">
+                <v-btn class="add-post-btn" icon="mdi-plus" size="large" color="#D9D9D9"></v-btn>
+            </div>
         </div>
     </div>
 </template>
