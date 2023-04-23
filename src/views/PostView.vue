@@ -21,11 +21,18 @@
             <v-field style="font-size: 16pt; color: black" variant="plain">
                 {{ postData.data.content }}
             </v-field>
+            <div class="d-flex justify-space-between">
+                <ShowTgas :tagsData="postData.data.tags"/>
+                <v-btn prepend-icon="mdi-keyboard-return" variant="text" size="large" @click="backMain">
+                    首頁
+                </v-btn>
+            </div>
         </div>
     </div>
 </template>
 <script setup>
 import Rating from "@/components/posts/Rating.vue";
+import ShowTgas from "@/components/posts/ShowTags.vue";
 import {useRoute, useRouter} from "vue-router";
 import axios from "axios";
 import {reactive, onBeforeMount} from "vue";
@@ -37,7 +44,11 @@ const postData = reactive({
     error: null
 });
 
-async function fetchPostData(){
+function backMain() {
+    router.push("/home");
+}
+
+async function fetchPostData() {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts/" + route.params.id);
         postData.data = response.data;

@@ -2,16 +2,14 @@
     <div class="d-flex flex-column justify-center align-center" style="width: 100%;height: 100%">
         <div class="content d-flex flex-column justify-end" style="height: 20%">
             <div class="d-flex" style="width: 500px">
-                <Tags :label="label"/>
+                <SelectTags :label="label"/>
             </div>
-            <div class="d-flex">
-                <label class="d-flex align-self-end justify-start"
-                       style="padding-left: 10px;width: 60%; font-size: 14pt">資訊工程系 &nbsp;&nbsp;&nbsp; {{
-                        showDate
-                    }}</label>
+            <div class="d-flex align-end justify-space-between">
+                <PostCreatedDetail :department="department" :showDate="showDate"/>
                 <div class="d-flex align-center">
                     <Rating/>
                 </div>
+                <AddPostBtn/>
             </div>
             <v-divider
                 :thickness="4"
@@ -30,14 +28,17 @@
     </div>
 </template>
 <script setup>
-import Tags from "@/components/posts/Tags.vue";
+import SelectTags from "@/components/posts/SelectTags.vue";
+import AddPostBtn from "@/components/posts/AddPostBtn.vue";
+import PostCreatedDetail from "@/components/posts/PostCreatedDetail.vue";
 import Rating from "@/components/posts/Rating.vue";
 import PostRule from "@/components/posts/PostRule.vue";
 import {useRouter} from "vue-router";
 
 const router = useRouter();
-const date = new Date();
 const label = "設定標籤";
+const department = "資訊工程系";
+const date = new Date();
 const showDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
 
 
