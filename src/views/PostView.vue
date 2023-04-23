@@ -84,3 +84,9 @@ onBeforeMount(fetchPostData);
     width: 60%;
 }
 </style>
+
+<style scoped>
+.content {
+    width: 60%;
+}
+</style>

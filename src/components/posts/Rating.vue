@@ -20,3 +20,19 @@ const props = defineProps({
 });
 const rating = ref(props.rating);
 </script>
+
+const props = defineProps({
+    showLabel: {
+        type: Boolean,
+        default: false
+    },
+    ratingReadonly: {
+        type: Boolean,
+        default: false
+    },
+    rating:{
+        type: Number
+    }
+});
+const rating = ref(props.rating);
+</script>
