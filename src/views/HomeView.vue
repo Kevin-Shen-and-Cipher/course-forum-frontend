@@ -11,7 +11,7 @@
                 <Post v-for="post in posts.data"
                       :id="post.id"
                       :title="post.title"
-                      :update_at="post.updated_at"
+                      :update_at="post.created_at"
                       :views="post.views"
                       :content="post.content"
                       :tag="post.tags"
