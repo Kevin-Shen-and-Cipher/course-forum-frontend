@@ -26,6 +26,16 @@ const routes = [
         component: () => import("@/views/AddPostView.vue")
     },
     {
+        path: '/admin/tags',
+        name: 'AdminTags',
+        component: () => import("@/views/AdminTagsView.vue")
+    },
+    {
+        path: "/admin/posts",
+        name: 'AdminPosts',
+        component: () => import("@/views/AdminPostsView.vue")
+    },
+    {
         path: "/error",
         name: "error",
         component: () => import("@/views/ErrorView.vue")
