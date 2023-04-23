@@ -2,8 +2,7 @@
     <div v-if="postData.data" class="d-flex flex-column justify-center align-center" style="width: 100%;height: 100%">
         <div class="content d-flex flex-column justify-end" style="height: 10%">
             <div class="d-flex align-end">
-                {{ postData.data.create_by }}
-                {{ postData.data.created_at.substring(0, 10) }}
+                <PostCreatedDetail :show-date="postData.data.created_at.substring(0, 10)" :department="postData.data.create_by"/>
             </div>
             <v-divider :thickness="4"
                        class="border-opacity-100"
@@ -33,6 +32,7 @@
 <script setup>
 import Rating from "@/components/posts/Rating.vue";
 import ShowTgas from "@/components/posts/ShowTags.vue";
+import PostCreatedDetail from "@/components/posts/PostCreatedDetail.vue";
 import {useRoute, useRouter} from "vue-router";
 import axios from "axios";
 import {reactive, onBeforeMount} from "vue";
