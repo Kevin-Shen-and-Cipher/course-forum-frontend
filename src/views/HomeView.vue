@@ -1,7 +1,9 @@
 <template>
-    <div class="d-flex justify-center" style="width: 100%">
-        <div class="d-flex justify-start flex-column" style="width: 100%; height: 100%">
-            <div class="d-flex" style="height: 100px" />
+    <div class="d-flex justify-center" style="width: 100%;">
+        <div class="d-flex align-end flex-column" style=" width: 100%;height: 100%">
+            <div class="d-flex justify-end" style="height: 100px">
+            </div>
+            <Filter/>
         </div>
         <div class="d-flex flex-column align-center justify-center">
             <Search />
@@ -28,8 +30,9 @@ import Post from '@/components/Home/Post.vue';
 import Search from '@/components/Home/Search.vue';
 
 import axios from 'axios';
-import { useRouter } from 'vue-router';
-import { onMounted, reactive } from 'vue';
+import {useRouter} from 'vue-router';
+import {onMounted, reactive} from "vue";
+import Filter from "@/components/Home/Filter.vue";
 
 const router = useRouter();
 
@@ -42,6 +45,7 @@ async function addPost() {
     await router.push('/posts/add');
 }
 
+async function fetchPosts() {
 async function fetchPosts() {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts');
