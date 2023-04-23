@@ -70,3 +70,13 @@ onMounted(fetchTags);
     font-size: 20pt;
 }
 </style>
+
+onMounted(fetchTags);
+</script>
+<style scoped>
+.tags {
+    margin-left: 10px;
+    margin-bottom: 20px;
+    font-size: 20pt;
+}
+</style>

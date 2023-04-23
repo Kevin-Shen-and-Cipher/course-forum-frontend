@@ -16,3 +16,16 @@ const props = defineProps({
     },
 });
 </script>
+
+<script setup>
+const props = defineProps({
+    department: {
+        type: String,
+        required: true
+    },
+    showDate: {
+        type: String,
+        required: true
+    }
+})
+</script>
