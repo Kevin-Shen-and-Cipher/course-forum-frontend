@@ -2,7 +2,7 @@
     <v-app-bar app absolute color="rgba(189, 212,239, 1)">
         <v-toolbar-title>
             <v-avatar size="80">
-                <img :src="BarLogo" alt="Logo" style="float: left;">
+                <img :src="BarLogo"  alt="Logo" style="float: left;" @click="backMain">
             </v-avatar>
         </v-toolbar-title>
         <v-btn v-if="!loginButton" variant="outlined" color="rgba(70, 105,147, 1)" @click="sendLogin">
@@ -23,7 +23,7 @@ const router = useRouter();
 const loginButton = computed(() => route.name === "login");
 
 function sendLogin() {
-    router.replace("/login");
+    router.push("/login");
 }
 
 function backMain() {

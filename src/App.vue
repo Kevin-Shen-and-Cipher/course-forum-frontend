@@ -14,7 +14,6 @@
     </v-app>
 </template>
 <script setup>
-
 import {RouterView} from 'vue-router';
 import Footer from '@/components/Footer.vue';
 import TopBar from "@/components/TopBar.vue";
@@ -26,7 +25,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .main-section {
-    height: calc(90vh - 100px);
+    height: calc(90vh - 50px);
     margin: 20px
 }
 </style>

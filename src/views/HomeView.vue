@@ -1,14 +1,26 @@
 <template>
     <div class="d-flex justify-center" style="width: 100%;">
-        <div class="d-flex flex-column align-center">
+        <div class="d-flex justify-start flex-column" style=" width: 100%;height: 100%">
+            <div class="d-flex" style="height: 100px">
+
+            </div>
+        </div>
+        <div class="d-flex flex-column align-center justify-center">
             <Search/>
             <div class="scroll-container light">
-                <Post v-for="post in state.data"
+                <Post v-for="post in posts.data"
                       :id="post.id"
                       :title="post.title"
                       :update_at="post.updated_at"
                       :views="post.views"
-                      :content="post.content"/>
+                      :content="post.content"
+                      :tag="post.tags"
+                />
+            </div>
+        </div>
+        <div class="d-flex justify-center align-end" style="width: 100%">
+            <div class="d-flex align-center" style="height: 20%">
+                <v-btn class="add-post-btn" icon="mdi-plus" size="large" color="#D9D9D9" @click="addPost"></v-btn>
             </div>
         </div>
     </div>
@@ -17,26 +29,33 @@
 <script setup>
 import Post from "@/components/Home/Post.vue";
 import Search from "@/components/Home/Search.vue";
+
 import axios from 'axios';
 import {useRouter} from 'vue-router';
 import {onMounted, reactive} from "vue";
 
 const router = useRouter();
 
-const state = reactive({
+const posts = reactive({
     data: null,
     error: null
 })
 
-onMounted(async () => {
+async function addPost() {
+    await router.push('/posts/add');
+}
+
+async function fetchPosts(){
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts")
-        state.data = response.data
+        posts.data = response.data
     } catch (error) {
-        state.error = error;
-        router.push('/error');
+        posts.error = error;
+        await router.push({path: import.meta.env.VITE_APP_ERROR_ROUTER});
     }
-})
+}
+
+onMounted(fetchPosts);
 
 </script>
 
