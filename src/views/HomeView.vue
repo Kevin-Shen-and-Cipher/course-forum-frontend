@@ -29,9 +29,9 @@ import Post from '@/components/Home/Post.vue';
 import Search from '@/components/Home/Search.vue';
 
 import axios from 'axios';
-import {useRouter} from 'vue-router';
-import {onMounted, reactive} from "vue";
-import Filter from "@/components/Home/Filter.vue";
+import { useRouter } from 'vue-router';
+import { onMounted, reactive } from 'vue';
+import Filter from '@/components/Home/Filter.vue';
 
 const router = useRouter();
 
@@ -44,7 +44,6 @@ async function addPost() {
     await router.push('/posts/add');
 }
 
-async function fetchPosts() {
 async function fetchPosts() {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts');
