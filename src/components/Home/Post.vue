@@ -7,55 +7,40 @@
             <v-card color="transparent" border="0" variant="tonal">
                 <div class="v-card__text">
                     <v-card-title>
-                        {{ title }}
+                        {{ post.title }}
                     </v-card-title>
                     <v-card-subtitle>
-                        {{ update_at.substring(0, 10) }}
+                        {{ post.created_at.substring(0, 10) }}
                     </v-card-subtitle>
                     <v-card-text>
-                        {{ content }}
+                        {{ post.content }}
                     </v-card-text>
+                    <a v-for="i in post.tags">
+                        {{ i.name }}
+                    </a>
                 </div>
             </v-card>
         </div>
         <div class="d-flex align-center justify-end" style="width: 25%">
             <div class="d-flex flex-column align-center justify-center" style="width: 60%">
-                <a>{{ views }}</a>
+                <a>{{ post.views }}</a>
                 <a>Views</a>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-import router from "@/router/router";
-import {tr} from "vuetify/locale";
+import router from '@/router/router';
 
 const props = defineProps({
-        id: {
-            type: Number,
-            required: true
-        },
-        title: {
-            type: String,
-            required: true
-        },
-        update_at: {
-            type: String,
-            required: true
-        },
-        content: {
-            type: String,
-            required: true
-        },
-        views: {
-            type: Number,
-            required: true
-        }
-    })
-;
+    post: {
+        type: Object,
+        required: true,
+    },
+});
 
 function inPost() {
-    router.push("/posts/" + props.id);
+    router.push('/posts/' + props.post.id);
 }
 </script>
 <style scoped>

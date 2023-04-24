@@ -1,43 +1,58 @@
 <template>
-    <div class="d-flex justify-center" style="width: 100%;">
-        <div class="d-flex flex-column align-center">
-            <Search/>
+    <div class="d-flex justify-center" style="width: 100%">
+        <div class="d-flex justify-start flex-column" style="width: 100%; height: 100%">
+            <div class="d-flex" style="height: 100px" />
+        </div>
+        <div class="d-flex flex-column align-center justify-center">
+            <Search />
             <div class="scroll-container light">
-                <Post v-for="post in state.data"
-                      :id="post.id"
-                      :title="post.title"
-                      :update_at="post.updated_at"
-                      :views="post.views"
-                      :content="post.content"/>
+                <Post v-for="post in posts.data" :post="post" />
+            </div>
+        </div>
+        <div class="d-flex justify-center align-end" style="width: 100%">
+            <div class="d-flex align-center" style="height: 20%">
+                <v-btn
+                    class="add-post-btn"
+                    icon="mdi-plus"
+                    size="large"
+                    color="#D9D9D9"
+                    @click="addPost"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import Post from "@/components/Home/Post.vue";
-import Search from "@/components/Home/Search.vue";
+import Post from '@/components/Home/Post.vue';
+import Search from '@/components/Home/Search.vue';
+
 import axios from 'axios';
-import {useRouter} from 'vue-router';
-import {onMounted, reactive} from "vue";
+import { useRouter } from 'vue-router';
+import { onMounted, reactive } from 'vue';
 
 const router = useRouter();
 
-const state = reactive({
+const posts = reactive({
     data: null,
-    error: null
-})
+    error: null,
+});
 
-onMounted(async () => {
+async function addPost() {
+    await router.push('/posts/add');
+}
+
+async function fetchPosts() {
     try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + "/posts")
-        state.data = response.data
+        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts');
+        posts.data = response.data;
     } catch (error) {
-        state.error = error;
-        router.push('/error');
+        posts.error = error;
+        await router.push({ path: import.meta.env.VITE_APP_ERROR_ROUTER });
     }
-})
+}
 
+onMounted(fetchPosts);
 </script>
 
 <style scoped>

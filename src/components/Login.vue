@@ -1,18 +1,22 @@
 <template>
-    <v-card
-            width="550"
-            height="300"
-            class="d-flex flex-column"
-    >
-        <v-card-title>
-            課程論壇
-        </v-card-title>
+    <v-card width="550" height="300" class="d-flex flex-column">
+        <v-card-title> 課程論壇 </v-card-title>
         <div class="d-flex flex-column justify-center card-text">
             <div class="d-flex flex-column align-center">
-                <v-text-field label="學號" v-model="username" variant="outlined" style="width: 85%"></v-text-field>
+                <v-text-field
+                    label="學號"
+                    v-model="username"
+                    variant="outlined"
+                    style="width: 85%"
+                ></v-text-field>
             </div>
             <div class="d-flex flex-column align-center justify-center">
-                <v-text-field label="密碼" v-model="password" variant="outlined" style="width: 85%"></v-text-field>
+                <v-text-field
+                    label="密碼"
+                    v-model="password"
+                    variant="outlined"
+                    style="width: 85%"
+                ></v-text-field>
             </div>
         </div>
         <div class="d-flex flex-column align-center justify-center">
@@ -26,20 +30,17 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {useRouter} from 'vue-router';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const username = ref("");
-const password = ref("");
+const username = ref('');
+const password = ref('');
 const router = useRouter();
 
 function login() {
-    router.push("/");
+    router.push('/home');
 }
-
-
 </script>
-
 <style scoped>
 .card-text {
     height: 175px;

@@ -1,19 +1,19 @@
 <template>
     <div class="d-flex justify-center align-center search">
         <v-text-field
-                :loading="loading"
-                density="compact"
-                variant="solo"
-                label="搜尋"
-                append-inner-icon="mdi-magnify"
-                single-line
-                hide-details
-                @click:append-inner="onClick"
+            :loading="loading"
+            density="compact"
+            variant="solo"
+            label="搜尋"
+            append-inner-icon="mdi-magnify"
+            single-line
+            hide-details
+            @click:append-inner="onClick"
         ></v-text-field>
     </div>
 </template>
 <script setup>
-import {ref} from "vue";
+import { ref } from 'vue';
 
 const loaded = ref(false);
 const loading = ref(false);
