@@ -21,11 +21,11 @@ const props = defineProps({
 const props = defineProps({
     department: {
         type: String,
-        required: true
+        required: true,
     },
     showDate: {
         type: String,
-        required: true
-    }
-})
+        required: true,
+    },
+});
 </script>

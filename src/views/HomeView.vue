@@ -1,9 +1,8 @@
 <template>
-    <div class="d-flex justify-center" style="width: 100%;">
-        <div class="d-flex align-end flex-column" style=" width: 100%;height: 100%">
-            <div class="d-flex justify-end" style="height: 100px">
-            </div>
-            <Filter/>
+    <div class="d-flex justify-center" style="width: 100%">
+        <div class="d-flex align-end flex-column" style="width: 100%; height: 100%">
+            <div class="d-flex justify-end" style="height: 100px"></div>
+            <Filter />
         </div>
         <div class="d-flex flex-column align-center justify-center">
             <Search />
