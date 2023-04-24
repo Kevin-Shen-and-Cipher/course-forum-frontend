@@ -1,6 +1,10 @@
 <template>
   <div class="d-flex">
-    <a v-if="tagsData" v-for="i in tagsData">#{{ i.names }}</a>
+    <a 
+        v-for="i in tagsData" 
+        v-if="tagsData"
+    >
+    #{{ i.names }}</a>
   </div>
 </template>
 <script setup>

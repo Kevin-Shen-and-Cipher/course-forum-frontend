@@ -4,7 +4,7 @@
       class="d-flex justify-start flex-column"
       style="width: 100%; height: 100%"
     >
-      <div class="d-flex" style="height: 100px"></div>
+      <div class="d-flex" style="height: 100px" />
     </div>
     <div class="d-flex flex-column align-center justify-center">
       <Search />
@@ -20,7 +20,7 @@
           size="large"
           color="#D9D9D9"
           @click="addPost"
-        ></v-btn>
+        />
       </div>
     </div>
   </div>
