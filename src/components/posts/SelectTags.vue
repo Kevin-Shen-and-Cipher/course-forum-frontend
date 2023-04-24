@@ -24,9 +24,11 @@
     </v-combobox>
 </template>
 <script setup>
+import { useRouter } from 'vue-router';
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 
+const router = new useRouter();
 const props = defineProps({
     label: {
         type: String,
@@ -60,16 +62,6 @@ async function fetchTags() {
         await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
     }
 }
-
-onMounted(fetchTags);
-</script>
-<style scoped>
-.tags {
-    margin-left: 10px;
-    margin-bottom: 20px;
-    font-size: 20pt;
-}
-</style>
 
 onMounted(fetchTags);
 </script>
