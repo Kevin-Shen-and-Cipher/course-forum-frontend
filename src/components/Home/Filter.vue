@@ -1,7 +1,7 @@
 <template>
-    <div class="d-flex flex-column" style="width: 40%">
+    <div class="d-flex flex-column" style="width: 250px">
         <v-expansion-panels variant="popout" class="my-2">
-            <v-expansion-panel style="width: 100%">
+            <v-expansion-panel>
                 <v-expansion-panel-title> 系所 </v-expansion-panel-title>
                 <v-expansion-panel-text>
                     <v-checkbox label="資訊工程系" style="height: 45px; color: black" />

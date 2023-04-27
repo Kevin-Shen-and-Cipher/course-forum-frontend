@@ -36,6 +36,11 @@ const routes = [
         component: () => import('@/views/AdminPostsView.vue'),
     },
     {
+        path: '/admin/posts/check/:id',
+        name: 'AdminPostsCheck',
+        component: () => import('@/views/CheckPosts.vue'),
+    },
+    {
         path: '/error',
         name: 'error',
         component: () => import('@/views/ErrorView.vue'),

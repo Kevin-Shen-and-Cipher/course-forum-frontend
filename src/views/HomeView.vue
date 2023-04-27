@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-center" style="width: 100%">
-        <div class="d-flex align-end flex-column" style="width: 100%; height: 100%">
+        <div class="d-flex align-end flex-column" style="width: 30%">
             <div class="d-flex justify-end" style="height: 100px"></div>
             <Filter />
         </div>
@@ -10,8 +10,8 @@
                 <Post v-for="post in posts.data" :post="post" />
             </div>
         </div>
-        <div class="d-flex justify-center align-end" style="width: 100%">
-            <div class="d-flex align-center" style="height: 20%">
+        <div class="d-flex justify-start align-end" style="width: 30%">
+            <div class="d-flex justify-center align-center" style="width: 100%; height: 20%">
                 <v-btn
                     class="add-post-btn"
                     icon="mdi-plus"
