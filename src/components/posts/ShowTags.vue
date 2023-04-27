@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex">
-        <a v-for="i in tagsData" v-if="tagsData"> #{{ i.names }}</a>
+        <v-chip v-for="i in tagsData" v-if="tagsData"> #{{ i.names }}</v-chip>
     </div>
 </template>
 <script setup>

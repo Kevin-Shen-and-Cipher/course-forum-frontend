@@ -15,7 +15,10 @@
                     <v-card-text>
                         {{ post.content }}
                     </v-card-text>
-                    <v-chip v-for="i in post.tags" style="height: 20px;font-size: 8pt;margin: 5px;">
+                    <v-chip
+                        v-for="i in post.tags"
+                        style="height: 20px; font-size: 8pt; margin: 5px"
+                    >
                         {{ i.name }}
                     </v-chip>
                 </div>
