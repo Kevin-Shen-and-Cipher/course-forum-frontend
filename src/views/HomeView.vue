@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="d-flex justify-start align-end" style="width: 30%">
-            <div class="d-flex justify-center align-center" style="width: 500px; height: 20%">
+            <div class="d-flex justify-center align-center" style="width:100%;height: 20%">
                 <v-btn
                     class="add-post-btn"
                     icon="mdi-plus"
