@@ -16,41 +16,29 @@ const routes = [
         component: () => import('@/views/LoginView.vue'),
     },
     {
-        path: '/posts',
-        children: [
-            {
-                path: ':id',
-                name: 'posts',
-                component: () => import('@/views/PostView.vue'),
-            },
-            {
-                path: 'add',
-                name: 'AddPosts',
-                component: () => import('@/views/AddPostView.vue'),
-            },
-        ],
+        path: '/posts/:id',
+        name: 'posts',
+        component: () => import('@/views/PostView.vue'),
     },
     {
-        path: '/admin',
-        children: [
-            {
-                path: 'tags',
-                name: 'AdminTags',
-                component: () => import('@/views/AdminTagsView.vue'),
-            },
-            {
-                path: 'posts',
-                name: 'AdminPosts',
-                component: () => import('@/views/AdminPostsView.vue'),
-                children: [
-                    {
-                        path: 'check/:id',
-                        name: 'AdminPostsCheck',
-                        component: () => import('@/views/CheckPosts.vue'),
-                    },
-                ],
-            },
-        ],
+        path: '/posts/add',
+        name: 'AddPosts',
+        component: () => import('@/views/AddPostView.vue'),
+    },
+    {
+        path: '/admin/tags',
+        name: 'AdminTags',
+        component: () => import('@/views/AdminTagsView.vue'),
+    },
+    {
+        path: '/admin/posts',
+        name: 'AdminPosts',
+        component: () => import('@/views/AdminPostsView.vue'),
+    },
+    {
+        path: '/admin/posts/check/:id',
+        name: 'AdminPostsCheck',
+        component: () => import('@/views/CheckPosts.vue'),
     },
     {
         path: '/error',
