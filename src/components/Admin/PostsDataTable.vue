@@ -10,16 +10,16 @@
         item-key="name"
     >
         <template v-slot:item.actions="{ item }">
-            <v-btn variant="text" @click="checkPost(item.id)"> 查看文章 </v-btn>
-            <v-btn variant="text" v-if="item.btnCheck"> 審核 </v-btn>
+            <v-btn variant="text" @click="checkPost(item.raw.id)"> 查看文章 </v-btn>
+            <v-btn variant="text" v-if="item.raw.btnCheck"> 審核 </v-btn>
             <v-btn variant="text" color="red"> 刪除文章 </v-btn>
         </template>
     </v-data-table>
 </template>
 <script setup>
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
-
 const selected = ref([]);
 const headers = ref([
     {
@@ -34,8 +34,12 @@ const headers = ref([
 ]);
 const desserts = ref([]);
 
+const router = useRouter();
+
 function checkPost(id) {
-    router.push('/post/check/' + id);
+    const routerData = router.resolve({ name: 'AdminPostsCheck', params: { id: id } });
+    console.log(routerData);
+    window.open(routerData.href, '_blank');
 }
 
 async function fetchPosts() {
