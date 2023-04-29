@@ -48,8 +48,8 @@ const searchResult = reactive({
 const searchInput = ref('');
 
 function searchPosts(searchString) {
-    console.log(searchString)
-    searchResult.data = posts.data.filter(post => post.title.includes(searchString));
+    console.log(searchString);
+    searchResult.data = posts.data.filter((post) => post.title.includes(searchString));
 }
 
 async function addPost() {
@@ -69,9 +69,9 @@ async function fetchPosts() {
 
 onMounted(fetchPosts);
 watch(searchInput, (old) => {
-    if (old === ""){
+    if (old === '') {
         searchResult.data = posts.data;
-    }else{
+    } else {
         searchPosts(old);
     }
 });
