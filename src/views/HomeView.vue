@@ -2,12 +2,12 @@
     <div class="d-flex justify-center" style="width: 100%">
         <div class="d-flex align-end flex-column" style="width: 30%">
             <div class="d-flex justify-end" style="height: 100px"></div>
-            <Filter />
+            <Filter v-model:apartment="apartment" v-model:tags="tags" />
         </div>
         <div class="d-flex flex-column align-center justify-center">
-            <Search />
+            <Search v-model="searchInput" />
             <div class="scroll-container light">
-                <Post v-for="post in posts.data" :post="post" />
+                <Post v-for="post in searchResult.data" :post="post" />
             </div>
         </div>
         <div class="d-flex justify-start align-end" style="width: 30%">
@@ -30,7 +30,7 @@ import Search from '@/components/Home/Search.vue';
 
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import Filter from '@/components/Home/Filter.vue';
 
 const router = useRouter();
@@ -40,6 +40,18 @@ const posts = reactive({
     error: null,
 });
 
+const searchResult = reactive({
+    data: null,
+    error: null,
+});
+
+const searchInput = ref('');
+
+function searchPosts(searchString) {
+    console.log(searchString)
+    searchResult.data = posts.data.filter(post => post.title.includes(searchString));
+}
+
 async function addPost() {
     await router.push('/posts/add');
 }
@@ -48,6 +60,7 @@ async function fetchPosts() {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts');
         posts.data = response.data;
+        searchResult.data = posts.data;
     } catch (error) {
         posts.error = error;
         await router.push({ path: import.meta.env.VITE_APP_ERROR_ROUTER });
@@ -55,6 +68,13 @@ async function fetchPosts() {
 }
 
 onMounted(fetchPosts);
+watch(searchInput, (old) => {
+    if (old === ""){
+        searchResult.data = posts.data;
+    }else{
+        searchPosts(old);
+    }
+});
 </script>
 
 <style scoped>
