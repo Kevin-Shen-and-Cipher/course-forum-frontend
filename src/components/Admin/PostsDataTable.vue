@@ -4,10 +4,11 @@
         show-select
         v-model="selected"
         :headers="headers"
-        :items="desserts"
+        :items="searchDesserts"
         :items-per-page="5"
         class="elevation-1"
         item-key="name"
+        @update:modelValue="$emit('update:selectedData', selected)"
     >
         <template v-slot:item.actions="{ item }">
             <v-btn variant="text" @click="checkPost(item.raw.id)"> 查看文章 </v-btn>
@@ -19,7 +20,7 @@
 <script setup>
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 const selected = ref([]);
 const headers = ref([
     {
@@ -33,7 +34,8 @@ const headers = ref([
     { title: '操作', align: 'end', key: 'actions' },
 ]);
 const desserts = ref([]);
-
+const searchDesserts = ref([]);
+const props = defineProps({ searchInput: { type: String } });
 const router = useRouter();
 
 function checkPost(id) {
@@ -60,6 +62,7 @@ async function fetchPosts() {
                 btnCheck: i.state,
             });
         }
+        searchDesserts.value = desserts.value;
     } catch (error) {
         console.log(error);
         await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
@@ -67,4 +70,20 @@ async function fetchPosts() {
 }
 
 onMounted(fetchPosts);
+
+function searchPosts(postTitle) {
+    searchDesserts.value = desserts.value.filter((dessert) => {
+        if (postTitle !== '' && !dessert.name.includes(postTitle)) {
+            return false;
+        }
+        return true;
+    });
+}
+
+watch(
+    () => props.searchInput,
+    (now) => {
+        searchPosts(now);
+    },
+);
 </script>
