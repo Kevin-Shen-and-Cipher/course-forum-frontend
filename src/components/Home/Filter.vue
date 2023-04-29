@@ -4,8 +4,20 @@
             <v-expansion-panel>
                 <v-expansion-panel-title> 系所 </v-expansion-panel-title>
                 <v-expansion-panel-text>
-                    <v-checkbox label="資訊工程系" style="height: 45px; color: black" />
-                    <v-checkbox label="機械工程系" style="height: 45px; color: black" />
+                    <v-checkbox
+                        class="checkBox"
+                        label="資訊工程系"
+                        :value="apartment[0]"
+                        v-model="selectedApartment"
+                        @change="$emit('update:select', selectedApartment)"
+                    />
+                    <v-checkbox
+                        class="checkBox"
+                        label="機械工程系"
+                        :value="apartment[1]"
+                        v-model="selectedApartment"
+                        @change="$emit('update:select', selectedApartment)"
+                    />
                 </v-expansion-panel-text>
             </v-expansion-panel>
         </v-expansion-panels>
@@ -18,6 +30,7 @@
             multiple
             variant="solo"
             style="margin: 15px"
+            @update:modelValue="$emit('update:tag', chips)"
         >
             <template v-slot:selection="{ attrs, item, select, selected }">
                 <v-chip
@@ -38,10 +51,11 @@
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { ref, watch, onMounted } from 'vue';
-
 const router = useRouter();
 const chips = ref([]);
-const tags = ref(['hi']);
+const apartment = ref(['資訊工程系', '機械工程系']);
+const selectedApartment = ref([]);
+const tags = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
@@ -67,4 +81,9 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.checkBox {
+    height: 45px;
+    color: black;
+}
+</style>
