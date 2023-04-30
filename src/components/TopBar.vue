@@ -47,6 +47,8 @@ function logout() {
 }
 
 function backMain() {
-    router.push('/').then(() => { router.go() });
+    router.push('/').then(() => {
+        router.go();
+    });
 }
 </script>

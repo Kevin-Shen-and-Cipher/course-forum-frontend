@@ -44,7 +44,9 @@ function login() {
     response.data = { token: 'test', apartment: '資訊工程系' };
     localStorage.setItem('apartment', response.data.apartment);
     localStorage.setItem('token', response.data.token);
-    router.push('/home').then(() => { router.go() });
+    router.push('/home').then(() => {
+        router.go();
+    });
 }
 </script>
 <style scoped>
