@@ -1,13 +1,14 @@
 <template>
     <v-combobox
         v-model="chips"
-        :items="tags"
+        :items="tagsname"
         chips
         clearable
         :label="label"
         multiple
         variant="solo"
         class="tags"
+        @update:modelValue="$emit('update:modelValue', chips)"
     >
         <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip
@@ -25,16 +26,17 @@
 </template>
 <script setup>
 import { onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
-
-const props = defineProps({
+const router = useRouter();
+defineProps({
     label: {
         type: String,
         required: true,
     },
 });
 const chips = ref([]);
-const tags = ref([]);
+const tagsname = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
@@ -42,7 +44,7 @@ function remove(item) {
 
 function handleChipsChange(newVal, oldVal) {
     if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
+        const invalidChips = newVal.filter((chip) => !tagsname.value.includes(chip));
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
 }
@@ -53,7 +55,7 @@ async function fetchTags() {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
         for (const i of response.data) {
-            tags.value.push(i.name);
+            tagsname.value.push(i.name);
         }
     } catch (error) {
         console.log(error);
