@@ -84,14 +84,14 @@ async function addPost() {
     await transforTags();
     console.log(tags.value);
     try {
-        await axios.post(import.meta.env.VITE_APP_API_URL + '/posts',{
+        await axios.post(import.meta.env.VITE_APP_API_URL + '/posts', {
             title: title.value,
-            tags:tags.value,
+            tags: tags.value,
             content: content.value,
             score: rating.value,
-            create_by: "資訊工程系"
+            create_by: '資訊工程系',
         });
-        router.push("/home");
+        router.push('/home');
     } catch (error) {
         console.log(error);
         await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);

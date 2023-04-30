@@ -20,7 +20,7 @@ function alertTimeOut() {
     visiable.value = true;
     setTimeout(() => {
         visiable.value = false;
-        emits('update:modelValue', visiable.value)
+        emits('update:modelValue', visiable.value);
     }, 1000);
 }
 </script>
