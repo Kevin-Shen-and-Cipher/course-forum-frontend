@@ -30,15 +30,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 
 const username = ref('');
 const password = ref('');
+const response = reactive({
+    data: '',
+});
 const router = useRouter();
 
 function login() {
-    router.push('/home');
+    response.data = { token: 'test', apartment: '資訊工程系' };
+    localStorage.setItem('apartment', response.data.apartment);
+    localStorage.setItem('token', response.data.token);
+    router.push('/home').then(() => { router.go() });
 }
 </script>
 <style scoped>
