@@ -1,9 +1,28 @@
 <template>
-    <v-alert class="alert" type="success" :text="text" v-if="show"></v-alert>
+    <v-alert class="alert" type="success" :text="text" v-if="visiable"></v-alert>
 </template>
 
 <script setup>
-defineProps({ show: Boolean, text: String });
+import { watch, ref } from 'vue';
+const emits = defineEmits(['update:modelValue']);
+const props = defineProps({ alertShow: Boolean, text: String });
+
+const visiable = ref(false);
+
+watch(
+    () => props.alertShow,
+    () => {
+        alertTimeOut(props.text);
+    },
+);
+
+function alertTimeOut() {
+    visiable.value = true;
+    setTimeout(() => {
+        visiable.value = false;
+        emits('update:modelValue', visiable.value)
+    }, 1000);
+}
 </script>
 
 <style scoped>

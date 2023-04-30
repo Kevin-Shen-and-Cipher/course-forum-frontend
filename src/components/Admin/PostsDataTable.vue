@@ -12,15 +12,25 @@
     >
         <template v-slot:item.actions="{ item }">
             <v-btn variant="text" @click="checkPost(item.raw.id)"> 查看文章 </v-btn>
-            <v-btn variant="text" v-if="item.raw.btnCheck"> 審核 </v-btn>
-            <v-btn variant="text" color="red"> 刪除文章 </v-btn>
+            <v-btn
+                variant="text"
+                v-if="!item.raw.btnCheck"
+                color="success"
+                @click="verifyPass(item.raw.id)"
+            >
+                通過審核
+            </v-btn>
+            <v-btn variant="text" color="red" @click="deletePosts"> 刪除文章 </v-btn>
         </template>
     </v-data-table>
 </template>
 <script setup>
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
+const router = useRouter();
+const props = defineProps({ searchInput: { type: String }, data: { type: Object } });
+const emits = defineEmits(['callReFetch', 'callAlert', 'update:selectedData']);
 const selected = ref([]);
 const headers = ref([
     {
@@ -33,46 +43,39 @@ const headers = ref([
     { title: '日期', align: 'end', key: 'date' },
     { title: '操作', align: 'end', key: 'actions' },
 ]);
-const desserts = ref([]);
-const searchDesserts = ref([]);
-const props = defineProps({ searchInput: { type: String } });
-const router = useRouter();
+const searchDesserts = ref(props.data);
 
 function checkPost(id) {
     const routerData = router.resolve({ name: 'AdminPostsCheck', params: { id: id } });
-    console.log(routerData);
     window.open(routerData.href, '_blank');
 }
 
-async function fetchPosts() {
+async function verifyPass(id) {
     try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts');
-        for (const i of response.data) {
-            const state = ref(false);
-            if (i.state) {
-                state.value = '未審核';
-            } else {
-                state.value = '審核通過';
-            }
-            desserts.value.push({
-                id: i.id,
-                name: i.title,
-                state: state.value,
-                date: i.created_at.substring(0, 10),
-                btnCheck: i.state,
-            });
-        }
-        searchDesserts.value = desserts.value;
+        await axios.patch(import.meta.env.VITE_APP_API_URL + '/posts/' + id, {
+            state: true,
+        });
+        emits('callReFetch');
+        emits('callAlert', '編輯成功');
     } catch (error) {
         console.log(error);
         await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
     }
 }
 
-onMounted(fetchPosts);
+async function deletePosts(id) {
+    try {
+        await axios.delete(import.meta.env.VITE_APP_API_URL + '/posts/' + id);
+        emits('callReFetch');
+        emits('callAlert', '刪除成功');
+    } catch (error) {
+        console.log(error);
+        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+    }
+}
 
 function searchPosts(postTitle) {
-    searchDesserts.value = desserts.value.filter((dessert) => {
+    searchDesserts.value = props.data.filter((dessert) => {
         if (postTitle !== '' && !dessert.name.includes(postTitle)) {
             return false;
         }
@@ -84,6 +87,12 @@ watch(
     () => props.searchInput,
     (now) => {
         searchPosts(now);
+    },
+);
+watch(
+    () => props.data,
+    () => {
+        searchDesserts.value = props.data;
     },
 );
 </script>

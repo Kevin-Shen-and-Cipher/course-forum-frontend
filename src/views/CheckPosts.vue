@@ -1,4 +1,9 @@
 <template>
+    <PopOut
+        :alert-show="alertShow"
+        :text="alertText"
+        @update:model-value="(newValue) => (alertShow = newValue)"
+    />
     <div
         v-if="postData.data"
         class="d-flex flex-column justify-center align-center"
@@ -10,7 +15,7 @@
                     :show-date="postData.data.created_at.substring(0, 10)"
                     :department="postData.data.create_by"
                 />
-                <div class="d-flex" v-if="!postData.data.status">
+                <div class="d-flex" v-if="!postData.data.state">
                     <v-btn
                         size="large"
                         @click="verifyPass"
@@ -44,7 +49,6 @@
             </v-field>
             <div class="d-flex justify-space-between">
                 <ShowTgas :tagsData="postData.data.tags" />
-
                 <v-btn
                     prepend-icon="mdi-keyboard-return"
                     variant="text"
@@ -61,10 +65,13 @@
 import Rating from '@/components/posts/Rating.vue';
 import ShowTgas from '@/components/posts/ShowTags.vue';
 import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
+import PopOut from '@/components/PopOut.vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { reactive, onBeforeMount } from 'vue';
+import { reactive, onBeforeMount, ref } from 'vue';
 
+const alertShow = ref(false);
+const alertText = ref('');
 const route = useRoute();
 const router = useRouter();
 const postData = reactive({
@@ -72,8 +79,18 @@ const postData = reactive({
     error: null,
 });
 
-function verifyPass() {
-    router.go(-1);
+async function verifyPass() {
+    try {
+        await axios.patch(import.meta.env.VITE_APP_API_URL + '/posts/' + route.params.id, {
+            state: true,
+        });
+        fetchPostData();
+        alertShow.value = true;
+        alertText.value = '編輯成功';
+    } catch (error) {
+        console.log(error);
+        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+    }
 }
 
 function verifyDeny() {
