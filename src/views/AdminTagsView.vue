@@ -1,5 +1,9 @@
 <template>
-    <PopOut :show="visiable" :text="alertText" />
+    <PopOut
+        :alert-show="alertShow"
+        :text="alertText"
+        @update:model-value="(newValue) => (alertShow = newValue)"
+    />
     <div class="d-flex justify-center" style="width: 100%">
         <div class="d-flex flex-column" style="width: 80%; padding-top: 60px">
             <div class="d-flex justify-space-between align-center" style="padding-left: 10px">
@@ -19,7 +23,7 @@
                     v-model="selectedData"
                     :searchInput="searchInput"
                     :data="tagsData"
-                    @callAlert="alertTimeOut"
+                    @callAlert="callAlert"
                     @callReFetch="fetchTags"
                 />
             </div>
@@ -39,7 +43,7 @@ const router = useRouter();
 const searchInput = ref('');
 const selectedData = ref([]);
 const buttonDisabled = ref(true);
-const visiable = ref(false);
+const alertShow = ref(false);
 const alertText = ref('');
 const tagsData = ref([]);
 const showDialog = ref(false);
@@ -51,7 +55,7 @@ function dialogAction(action) {
 async function addTags(data) {
     try {
         await axios.post(import.meta.env.VITE_APP_API_URL + '/tags', { name: data });
-        alertTimeOut('新增成功');
+        callAlert('新增成功');
         fetchTags();
         dialogAction(false);
     } catch (error) {
@@ -60,13 +64,9 @@ async function addTags(data) {
     }
 }
 
-function alertTimeOut(text) {
+function callAlert(text) {
+    alertShow.value = true;
     alertText.value = text;
-    visiable.value = true;
-    setTimeout(() => {
-        alertText.value = '';
-        visiable.value = false;
-    }, 1000);
 }
 
 async function deleteSelected() {
@@ -74,8 +74,7 @@ async function deleteSelected() {
         for (const i of selectedData.value) {
             await axios.delete(import.meta.env.VITE_APP_API_URL + '/tags/' + i);
         }
-        selectedData.value = [];
-        alertTimeOut('全部刪除成功');
+        callAlert('全部刪除成功');
         fetchTags();
     } catch (error) {
         console.log(error);
@@ -88,8 +87,8 @@ watch(selectedData, () => {
 });
 
 async function fetchTags() {
-    console.log('fetch happen');
     try {
+        selectedData.value = [];
         tagsData.value = [];
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
         for (const i of response.data) {
