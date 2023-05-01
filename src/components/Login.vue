@@ -32,7 +32,9 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/store/auth';
 
+const authStore = useAuthStore();
 const username = ref('');
 const password = ref('');
 const response = reactive({
@@ -42,11 +44,8 @@ const router = useRouter();
 
 function login() {
     response.data = { token: 'test', apartment: '資訊工程系' };
-    localStorage.setItem('apartment', response.data.apartment);
-    localStorage.setItem('token', response.data.token);
-    router.push('/home').then(() => {
-        router.go();
-    });
+    authStore.setAuth(response.data.token, response.data.apartment);
+    router.push('/home')
 }
 </script>
 <style scoped>

@@ -5,8 +5,8 @@
                 <img :src="BarLogo" alt="Logo" style="float: left" @click="backMain" />
             </v-avatar>
         </v-toolbar-title>
-        <div v-if="tokenFind" style="margin-right: 40px">
-            <a style="margin-right: 20px">{{ apartment }}</a>
+        <div v-if="authStore.token" style="margin-right: 40px">
+            <a style="margin-right: 20px">{{ authStore.apartment }}</a>
             <v-btn variant="outlined" color="rgba(70, 105,147, 1)" @click="logout"> 登出 </v-btn>
         </div>
         <div v-else style="margin-right: 40px">
@@ -29,11 +29,10 @@
 import BarLogo from '@/assets/topbar_logo.png';
 import { useRoute, useRouter } from 'vue-router';
 import { computed } from 'vue';
-
+import { useAuthStore } from '@/store/auth';
+const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const apartment = localStorage.getItem('apartment');
-const tokenFind = computed(() => localStorage.getItem('token') != null);
 const loginButton = computed(() => route.name === 'login');
 
 function sendLogin() {
@@ -41,14 +40,11 @@ function sendLogin() {
 }
 
 function logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('apartment');
+    authStore.removeAuth();
     backMain();
 }
 
 function backMain() {
-    router.push('/').then(() => {
-        router.go();
-    });
+    router.push('/');
 }
 </script>
