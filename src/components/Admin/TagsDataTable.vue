@@ -82,11 +82,10 @@ async function editData() {
             editTag.value,
         );
         emits('callReFetch');
-        alertStore.callAlert("編輯完成");
+        alertStore.callAlert('編輯完成');
         closeDialog();
     } catch (error) {
         alertStore.callAlert(error.message, 'error');
-        
     }
 }
 
@@ -102,7 +101,7 @@ async function deleteData() {
     try {
         await axios.delete(import.meta.env.VITE_APP_API_URL + '/tags/' + editTag.value.id);
         emits('callReFetch');
-        alertStore.callAlert("刪除成功");
+        alertStore.callAlert('刪除成功');
     } catch (error) {
         alertStore.callAlert(error.message, 'error');
     }
@@ -111,7 +110,7 @@ async function deleteData() {
 //搜尋標籤
 function searchTags(tagName) {
     searchDesserts.value = props.data.filter((dessert) => {
-        if (tagName !== '' && !dessert.name.includes(tagName)) {
+        if (tagName && !dessert.name.includes(tagName)) {
             return false;
         }
         return true;
