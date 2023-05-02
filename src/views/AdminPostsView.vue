@@ -1,11 +1,8 @@
 <template>
-    <PopOut
-        :alert-show="alertShow"
-        :text="alertText"
-        @update:model-value="(newValue) => (alertShow = newValue)"
-    />
+    <PopOut />
     <div class="d-flex justify-center" style="width: 100%">
         <div class="d-flex flex-column" style="width: 80%; padding-top: 60px">
+            <JumpButton />
             <div class="d-flex justify-space-between align-center" style="padding-left: 10px">
                 <Search v-model="searchInput" />
                 <div class="d-flex justify-space-between">
@@ -27,37 +24,30 @@
                     :searchInput="searchInput"
                     :data="postsData"
                     @callReFetch="fetchPosts"
-                    @callAlert="callAlert"
                 />
             </div>
         </div>
     </div>
 </template>
 <script setup>
+import JumpButton from '@/components/Admin/JumpButton.vue';
 import Search from '@/components/Home/Search.vue';
 import PostsDataTable from '@/components/Admin/PostsDataTable.vue';
 import PopOut from '@/components/PopOut.vue';
+import { useAlertStore } from '@/store/alert';
 import { ref, watch, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import axios from 'axios';
 defineEmits(['update:selectedData']);
 
-const router = useRouter();
+const alertStore = useAlertStore();
 const searchInput = ref('');
 const selectedData = ref([]);
 const postsData = ref([]);
 const buttonDisabled = ref(true);
-const alertShow = ref(false);
-const alertText = ref('');
 
 watch(selectedData, () => {
     buttonDisabled.value = selectedData.value.length === 0;
 });
-
-function callAlert(text) {
-    alertShow.value = true;
-    alertText.value = text;
-}
 
 async function verifySelectedPass() {
     try {
@@ -67,10 +57,9 @@ async function verifySelectedPass() {
             });
         }
         fetchPosts();
-        callAlert('全部審核成功');
+        alertStore.callAlert('全部審核通過');
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
     }
 }
 
@@ -94,8 +83,7 @@ async function fetchPosts() {
             });
         }
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
     }
 }
 
@@ -105,10 +93,9 @@ async function deletePosts() {
             await axios.delete(import.meta.env.VITE_APP_API_URL + '/posts/' + i.id);
         }
         fetchPosts();
-        callAlert('全部刪除成功');
+        alertStore.callAlert('全部刪除成功');
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
     }
 }
 

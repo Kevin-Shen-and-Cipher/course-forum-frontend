@@ -1,11 +1,8 @@
 <template>
-    <PopOut
-        :alert-show="alertShow"
-        :text="alertText"
-        @update:model-value="(newValue) => (alertShow = newValue)"
-    />
+    <PopOut />
     <div class="d-flex justify-center" style="width: 100%">
         <div class="d-flex flex-column" style="width: 80%; padding-top: 60px">
+            <JumpButton />
             <div class="d-flex justify-space-between align-center" style="padding-left: 10px">
                 <div class="d-flex align-center">
                     <Search v-model="searchInput" />
@@ -23,7 +20,6 @@
                     v-model="selectedData"
                     :searchInput="searchInput"
                     :data="tagsData"
-                    @callAlert="callAlert"
                     @callReFetch="fetchTags"
                 />
             </div>
@@ -32,19 +28,18 @@
 </template>
 <script setup>
 import axios from 'axios';
-import { useRouter } from 'vue-router';
+import JumpButton from '@/components/Admin/JumpButton.vue';
 import Search from '@/components/Home/Search.vue';
 import TagsDataTable from '@/components/Admin/TagsDataTable.vue';
+import { useAlertStore } from '@/store/alert.js';
 import PopOut from '@/components/PopOut.vue';
 import TagsAdd from '@/components/Admin/TagsAdd.vue';
 import { ref, watch, onMounted } from 'vue';
 defineEmits(['callAlert', 'update:modelValue', 'callReFetch', 'closeDialog']);
-const router = useRouter();
+const alertStore = useAlertStore();
 const searchInput = ref('');
 const selectedData = ref([]);
 const buttonDisabled = ref(true);
-const alertShow = ref(false);
-const alertText = ref('');
 const tagsData = ref([]);
 const showDialog = ref(false);
 
@@ -55,30 +50,22 @@ function dialogAction(action) {
 async function addTags(data) {
     try {
         await axios.post(import.meta.env.VITE_APP_API_URL + '/tags', { name: data });
-        callAlert('新增成功');
+        alertStore.callAlert('新增成功');
         fetchTags();
         dialogAction(false);
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
     }
 }
-
-function callAlert(text) {
-    alertShow.value = true;
-    alertText.value = text;
-}
-
 async function deleteSelected() {
     try {
         for (const i of selectedData.value) {
             await axios.delete(import.meta.env.VITE_APP_API_URL + '/tags/' + i);
         }
-        callAlert('全部刪除成功');
+        alertStore.callAlert('全部刪除成功');
         fetchTags();
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
     }
 }
 
@@ -99,8 +86,7 @@ async function fetchTags() {
             });
         }
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
     }
 }
 

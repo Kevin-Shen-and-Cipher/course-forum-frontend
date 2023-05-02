@@ -28,9 +28,11 @@
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
+import { useAlertStore } from '@/store/alert';
 const router = useRouter();
+const alertStore = useAlertStore();
 const props = defineProps({ searchInput: { type: String }, data: { type: Object } });
-const emits = defineEmits(['callReFetch', 'callAlert', 'update:selectedData']);
+const emits = defineEmits(['callReFetch', 'update:selectedData']);
 const selected = ref([]);
 const headers = ref([
     {
@@ -56,10 +58,10 @@ async function verifyPass(id) {
             state: true,
         });
         emits('callReFetch');
-        emits('callAlert', '編輯成功');
+        alertStore.callAlert("審核成功");
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, "error");
+        console.log(alertStore.type)
     }
 }
 
@@ -67,10 +69,9 @@ async function deletePosts(id) {
     try {
         await axios.delete(import.meta.env.VITE_APP_API_URL + '/posts/' + id);
         emits('callReFetch');
-        emits('callAlert', '刪除成功');
+        alertStore.callAlert("刪除成功");
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, "error");
     }
 }
 

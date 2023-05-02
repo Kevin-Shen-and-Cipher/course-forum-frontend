@@ -33,12 +33,12 @@
 </template>
 <script setup>
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
+import { useAlertStore } from '@/store/alert.js';
 import TagsEdit from '@/components/Admin/TagsEdit.vue';
 import DeleteData from '@/components/Admin/DeleteData.vue';
-const emits = defineEmits(['callAlert', 'update:modelValue', 'callReFetch']);
-const router = useRouter();
+const emits = defineEmits(['update:modelValue', 'callReFetch']);
+const alertStore = useAlertStore();
 const props = defineProps({ searchInput: { type: String }, data: { type: Object } });
 
 //編輯以及刪除的小視窗顯示
@@ -77,17 +77,16 @@ function editOn(data) {
 //編輯資料
 async function editData() {
     try {
-        console.log(editTag.value);
         await axios.patch(
             import.meta.env.VITE_APP_API_URL + '/tags/' + editTag.value.id,
             editTag.value,
         );
         emits('callReFetch');
-        emits('callAlert', '編輯完成');
+        alertStore.callAlert("編輯完成");
         closeDialog();
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
+        
     }
 }
 
@@ -103,10 +102,9 @@ async function deleteData() {
     try {
         await axios.delete(import.meta.env.VITE_APP_API_URL + '/tags/' + editTag.value.id);
         emits('callReFetch');
-        emits('callAlert', '刪除成功');
+        alertStore.callAlert("刪除成功");
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error');
     }
 }
 

@@ -1,9 +1,5 @@
 <template>
-    <PopOut
-        :alert-show="alertShow"
-        :text="alertText"
-        @update:model-value="(newValue) => (alertShow = newValue)"
-    />
+    <PopOut />
     <div
         v-if="postData.data"
         class="d-flex flex-column justify-center align-center"
@@ -66,14 +62,13 @@ import Rating from '@/components/posts/Rating.vue';
 import ShowTgas from '@/components/posts/ShowTags.vue';
 import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
 import PopOut from '@/components/PopOut.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useAlertStore } from '@/store/Alert.js';
+import { useRoute} from 'vue-router';
 import axios from 'axios';
-import { reactive, onBeforeMount, ref } from 'vue';
+import { reactive, onBeforeMount } from 'vue';
 
-const alertShow = ref(false);
-const alertText = ref('');
+const alertStroe = useAlertStore();
 const route = useRoute();
-const router = useRouter();
 const postData = reactive({
     data: null,
     error: null,
@@ -85,11 +80,9 @@ async function verifyPass() {
             state: true,
         });
         fetchPostData();
-        alertShow.value = true;
-        alertText.value = '編輯成功';
+        alertStroe.callAlert('審核通過');
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStroe.callAlert(error.message, 'error');
     }
 }
 
@@ -104,8 +97,7 @@ async function fetchPostData() {
         );
         postData.data = response.data;
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStroe.callAlert(error.message, 'error');
     }
 }
 
