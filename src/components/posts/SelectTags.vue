@@ -1,24 +1,27 @@
 <template>
     <v-combobox
         v-model="chips"
-        :items="tagsname"
+        :items="tagsNames"
+        :item-value="(item) => item.id"
+        item-title="name"
         chips
         clearable
         :label="label"
         multiple
         variant="solo"
         class="tags"
+        return-object
         @update:modelValue="$emit('update:modelValue', chips)"
     >
         <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip
                 v-bind="attrs"
                 :model-value="selected"
-                closable
+                close
                 @click="select"
                 @click:close="remove(item)"
             >
-                <strong>{{ item }}</strong>
+                <strong>{{ item.name }}</strong>
                 <span>(interest)</span>
             </v-chip>
         </template>
@@ -36,7 +39,7 @@ defineProps({
     },
 });
 const chips = ref([]);
-const tagsname = ref([]);
+const tagsNames = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
@@ -44,19 +47,16 @@ function remove(item) {
 
 function handleChipsChange(newVal, oldVal) {
     if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tagsname.value.includes(chip));
+        const invalidChips = newVal.filter((chip) => !tagsNames.value.includes(chip));
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
 }
 
 watch(chips, handleChipsChange);
-
 async function fetchTags() {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        for (const i of response.data) {
-            tagsname.value.push(i.name);
-        }
+        tagsNames.value = response.data;
     } catch (error) {
         console.log(error);
         await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);

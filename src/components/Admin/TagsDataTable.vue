@@ -33,7 +33,7 @@
 </template>
 <script setup>
 import axios from 'axios';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useAlertStore } from '@/store/alert.js';
 import TagsEdit from '@/components/Admin/TagsEdit.vue';
 import DeleteData from '@/components/Admin/DeleteData.vue';
@@ -57,7 +57,7 @@ const headers = ref([
     { title: '操作', align: 'end', key: 'actions' },
 ]);
 const selected = ref([]);
-const searchDesserts = ref(props.data);
+const searchDesserts = computed(() => props.data);
 
 //編輯Tag的暫存變數
 const editTag = ref([]);
@@ -116,13 +116,6 @@ function searchTags(tagName) {
         return true;
     });
 }
-
-watch(
-    () => props.data,
-    () => {
-        searchDesserts.value = props.data;
-    },
-);
 
 //隨時判斷搜尋字串的輸入
 watch(

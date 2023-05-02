@@ -10,7 +10,7 @@
             <div class="d-flex align-end justify-space-between">
                 <PostCreatedDetail :department="department" :showDate="showDate" />
                 <div class="d-flex align-center">
-                    <Rating v-model:rating="rating" />
+                    <Rating v-model:rating="post.score" />
                 </div>
                 <v-btn prepend-icon="mdi-note-plus-outline" @click="addPost"> 發表文章 </v-btn>
             </div>
@@ -25,14 +25,14 @@
             <div class="d-flex flex-column" style="width: 73%">
                 <input
                     placeholder="請輸入標題"
-                    v-model="title"
+                    v-model="post.title"
                     style="font-size: 32pt; margin: 10px 0px"
                 />
                 <v-textarea
                     auto-grow
                     class="my-custom-textarea"
                     label="(請在此地方寫下你最好的文章)"
-                    v-model="content"
+                    v-model="post.content"
                 ></v-textarea>
             </div>
             <PostRule />
@@ -50,47 +50,31 @@ import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
 import Rating from '@/components/posts/Rating.vue';
 import PostRule from '@/components/posts/PostRule.vue';
 import { useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
+import { ref,reactive } from 'vue';
+import {useAuthStore} from '@/store/Auth.js';
 import axios from 'axios';
 
 const router = useRouter();
+const authStore = useAuthStore();
 const label = '設定標籤';
 const department = '資訊工程系';
+const post = reactive({
+    title: '',
+    content: '',
+    score: 0,
+    tags: [],
+    create_by: authStore.apartment,
+})
 const selectedTags = ref([]);
-const rating = ref(0);
-const title = ref('');
-const tags = ref([]);
-const content = ref('');
 const date = new Date();
 const showDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
-watch(title, () => console.log(title.value));
 function backMain() {
     router.go(-1);
 }
-async function transforTags() {
-    try {
-        tags.value = [];
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        tags.value = selectedTags.value.map((selectedTag) => {
-            const tag = response.data.find((tag) => tag.name === selectedTag);
-            return tag ? tag.id : null;
-        });
-    } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
-    }
-}
+
 async function addPost() {
-    await transforTags();
-    console.log(tags.value);
     try {
-        await axios.post(import.meta.env.VITE_APP_API_URL + '/posts', {
-            title: title.value,
-            tags: tags.value,
-            content: content.value,
-            score: rating.value,
-            create_by: '資訊工程系',
-        });
+        await axios.post(import.meta.env.VITE_APP_API_URL + '/posts', post);
         router.push('/home');
     } catch (error) {
         console.log(error);

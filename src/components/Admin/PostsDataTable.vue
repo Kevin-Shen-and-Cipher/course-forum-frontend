@@ -27,7 +27,7 @@
 <script setup>
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useAlertStore } from '@/store/alert';
 const router = useRouter();
 const alertStore = useAlertStore();
@@ -45,7 +45,7 @@ const headers = ref([
     { title: '日期', align: 'end', key: 'date' },
     { title: '操作', align: 'end', key: 'actions' },
 ]);
-const searchDesserts = ref(props.data);
+const searchDesserts = computed(() => props.data);
 
 function checkPost(id) {
     const routerData = router.resolve({ name: 'AdminPostsCheck', params: { id: id } });
@@ -88,12 +88,6 @@ watch(
     () => props.searchInput,
     (now) => {
         searchPosts(now);
-    },
-);
-watch(
-    () => props.data,
-    () => {
-        searchDesserts.value = props.data;
     },
 );
 </script>
