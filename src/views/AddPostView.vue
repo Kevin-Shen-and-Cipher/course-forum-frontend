@@ -30,7 +30,8 @@
                 />
                 <v-textarea
                     auto-grow
-                    class="my-custom-textarea"
+                    variant="solo"
+                    class="my-custom-textarea elevation-0"
                     label="(請在此地方寫下你最好的文章)"
                     v-model="post.content"
                 ></v-textarea>
