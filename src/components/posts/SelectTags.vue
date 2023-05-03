@@ -1,8 +1,8 @@
 <template>
     <v-combobox
         v-model="chips"
-        :items="tagsNames"
-        :item-value="(item) => item.id"
+        :items="tags"
+        item-value="id"
         item-title="name"
         chips
         clearable
@@ -10,7 +10,7 @@
         multiple
         variant="solo"
         class="tags"
-        return-object
+        :return-object="false"
         @update:modelValue="$emit('update:modelValue', chips)"
     >
         <template v-slot:selection="{ attrs, item, select, selected }">
@@ -29,9 +29,9 @@
 </template>
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import axios from 'axios';
-const router = useRouter();
+import {useAlertStore} from '@/store/Alert.js'
+const alertStore = useAlertStore();
 defineProps({
     label: {
         type: String,
@@ -39,7 +39,7 @@ defineProps({
     },
 });
 const chips = ref([]);
-const tagsNames = ref([]);
+const tags = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
@@ -47,7 +47,7 @@ function remove(item) {
 
 function handleChipsChange(newVal, oldVal) {
     if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tagsNames.value.includes(chip));
+        const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
 }
@@ -56,10 +56,9 @@ watch(chips, handleChipsChange);
 async function fetchTags() {
     try {
         const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        tagsNames.value = response.data;
+        tags.value = response.data;
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, 'error')
     }
 }
 
