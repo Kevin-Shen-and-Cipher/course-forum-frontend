@@ -5,7 +5,7 @@
     >
         <div class="content d-flex flex-column justify-end" style="height: 20%; overflow: auto">
             <div class="d-flex" style="width: 500px">
-                <SelectTags :label="label" v-model="selectedTags" />
+                <SelectTags :label="label" v-model="post.tags" />
             </div>
             <div class="d-flex align-end justify-space-between">
                 <PostCreatedDetail :department="department" :showDate="showDate" />
@@ -51,12 +51,14 @@ import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
 import Rating from '@/components/posts/Rating.vue';
 import PostRule from '@/components/posts/PostRule.vue';
 import { useRouter } from 'vue-router';
-import { ref,reactive } from 'vue';
+import { reactive } from 'vue';
 import {useAuthStore} from '@/store/Auth.js';
+import {useAlertStore} from '@/store/Alert.js';
 import axios from 'axios';
 
 const router = useRouter();
 const authStore = useAuthStore();
+const alertStore = useAlertStore();
 const label = '設定標籤';
 const department = '資訊工程系';
 const post = reactive({
@@ -66,7 +68,6 @@ const post = reactive({
     tags: [],
     create_by: authStore.apartment,
 })
-const selectedTags = ref([]);
 const date = new Date();
 const showDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
 function backMain() {
@@ -77,9 +78,9 @@ async function addPost() {
     try {
         await axios.post(import.meta.env.VITE_APP_API_URL + '/posts', post);
         router.push('/home');
+        alertStore.callAlert("新增成功");
     } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
+        alertStore.callAlert(error.message, "error")
     }
 }
 </script>
