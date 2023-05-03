@@ -30,7 +30,9 @@ import BarLogo from '@/assets/topbar_logo.png';
 import { useRoute, useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useAuthStore } from '@/store/auth';
+import { useAlertStore } from '@/store/alert';
 const authStore = useAuthStore();
+const alertStore = useAlertStore();
 const route = useRoute();
 const router = useRouter();
 const loginButton = computed(() => route.name === 'login');
@@ -42,6 +44,7 @@ function sendLogin() {
 function logout() {
     authStore.removeAuth();
     backMain();
+    alertStore.callAlert("登出!");
 }
 
 function backMain() {

@@ -1,5 +1,4 @@
 <template>
-    <PopOut />
     <div
         v-if="postData.data"
         class="d-flex flex-column justify-center align-center"
@@ -61,7 +60,6 @@
 import Rating from '@/components/posts/Rating.vue';
 import ShowTgas from '@/components/posts/ShowTags.vue';
 import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
-import PopOut from '@/components/PopOut.vue';
 import { useAlertStore } from '@/store/Alert.js';
 import { useRoute} from 'vue-router';
 import axios from 'axios';

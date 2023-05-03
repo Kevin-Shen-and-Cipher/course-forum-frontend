@@ -1,5 +1,4 @@
 <template>
-    <PopOut />
     <div class="d-flex justify-center" style="width: 100%">
         <div class="d-flex flex-column" style="width: 80%; padding-top: 60px">
             <JumpButton />
@@ -33,7 +32,6 @@
 import JumpButton from '@/components/Admin/JumpButton.vue';
 import Search from '@/components/Home/Search.vue';
 import PostsDataTable from '@/components/Admin/PostsDataTable.vue';
-import PopOut from '@/components/PopOut.vue';
 import { useAlertStore } from '@/store/alert';
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';

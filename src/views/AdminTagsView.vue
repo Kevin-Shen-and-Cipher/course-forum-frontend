@@ -1,5 +1,4 @@
 <template>
-    <PopOut />
     <div class="d-flex justify-center" style="width: 100%">
         <div class="d-flex flex-column" style="width: 80%; padding-top: 60px">
             <JumpButton />
@@ -32,7 +31,6 @@ import JumpButton from '@/components/Admin/JumpButton.vue';
 import Search from '@/components/Home/Search.vue';
 import TagsDataTable from '@/components/Admin/TagsDataTable.vue';
 import { useAlertStore } from '@/store/alert.js';
-import PopOut from '@/components/PopOut.vue';
 import TagsAdd from '@/components/Admin/TagsAdd.vue';
 import { ref, watch, onMounted } from 'vue';
 defineEmits(['callAlert', 'update:modelValue', 'callReFetch', 'closeDialog']);
