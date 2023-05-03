@@ -68,13 +68,13 @@ onMounted(fetchPosts);
 
 function searchPosts(searchString, selectData, tagData) {
     searchResult.data = posts.data.filter((post) => {
-        if (searchString !== '' && !post.title.includes(searchString)) {
+        if (searchString && !post.title.includes(searchString)) {
             return false;
         }
-        if (selectData.length > 0 && !selectData.includes(post.create_by)) {
+        if (selectData.length && !selectData.includes(post.create_by)) {
             return false;
         }
-        if (tagData.length > 0 && !post.tags.some((tag) => tagData.includes(tag.name))) {
+        if (tagData.length && !post.tags.some((tag) => tagData.includes(tag.name))) {
             return false;
         }
         return true;
