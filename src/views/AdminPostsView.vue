@@ -35,7 +35,7 @@ import Search from '@/components/Home/Search.vue';
 import PostsDataTable from '@/components/Admin/PostsDataTable.vue';
 import PopOut from '@/components/PopOut.vue';
 import { useAlertStore } from '@/store/alert';
-import { ref, watch, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 defineEmits(['update:selectedData']);
 
@@ -43,11 +43,7 @@ const alertStore = useAlertStore();
 const searchInput = ref('');
 const selectedData = ref([]);
 const postsData = ref([]);
-const buttonDisabled = ref(true);
-
-watch(selectedData, () => {
-    buttonDisabled.value = selectedData.value.length === 0;
-});
+const buttonDisabled = computed(() => selectedData.value.length === 0);
 
 async function verifySelectedPass() {
     try {
