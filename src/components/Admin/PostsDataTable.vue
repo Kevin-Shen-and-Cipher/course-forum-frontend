@@ -20,7 +20,7 @@
             >
                 通過審核
             </v-btn>
-            <v-btn variant="text" color="red" @click="deletePosts"> 刪除文章 </v-btn>
+            <v-btn variant="text" color="red" @click="deletePosts(item.raw.id)"> 刪除文章 </v-btn>
         </template>
     </v-data-table>
 </template>
