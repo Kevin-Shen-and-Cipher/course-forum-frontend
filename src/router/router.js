@@ -1,4 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import {useAuthStore} from '@/store/auth.js';
+import {useAlertStore} from '@/store/alert.js';
+function checkToken(to, from, next){
+    const authStore = useAuthStore();
+    const alertStore = useAlertStore();
+    if (to.names === 'AdminTags'){
+        if (authStore.admin){
+            next();
+            return;
+        }
+        alertStore.callAlert("權限不足", 'info');
+        router.push('/home');
+    }
+    if (authStore.token){
+        next();
+        return;
+    }
+    alertStore.callAlert("請先登入", 'info');
+    router.push('/home');
+}
 const routes = [
     {
         path: '/',
@@ -24,6 +44,7 @@ const routes = [
         path: '/posts/add',
         name: 'AddPosts',
         component: () => import('@/views/AddPostView.vue'),
+        beforeEnter: checkToken,
     },
     {
         path: '/admin/tags',
