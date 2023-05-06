@@ -8,7 +8,7 @@
                 <SelectTags :label="label" v-model="post.tags" />
             </div>
             <div class="d-flex align-end justify-space-between">
-                <PostCreatedDetail :department="department" :showDate="showDate" />
+                <PostCreatedDetail :department="authStore.apartment" :showDate="showDate" />
                 <div class="d-flex align-center">
                     <Rating v-model:rating="post.score" />
                 </div>
@@ -53,14 +53,12 @@ import PostRule from '@/components/posts/PostRule.vue';
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import {useAuthStore} from '@/store/Auth.js';
-import {useAlertStore} from '@/store/Alert.js';
-import axios from 'axios';
+import { usePostsStore } from '@/store/posts.js';
 
 const router = useRouter();
+const postsStore = usePostsStore();
 const authStore = useAuthStore();
-const alertStore = useAlertStore();
 const label = '設定標籤';
-const department = '資訊工程系';
 const post = reactive({
     title: '',
     content: '',
@@ -69,18 +67,13 @@ const post = reactive({
     create_by: authStore.apartment,
 })
 const date = new Date();
-const showDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+const showDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 function backMain() {
     router.go(-1);
 }
-
-async function addPost() {
-    try {
-        await axios.post(import.meta.env.VITE_APP_API_URL + '/posts', post);
+async function addPost(){
+    if (postsStore.addPost(post)){
         router.push('/home');
-        alertStore.callAlert("新增成功");
-    } catch (error) {
-        alertStore.callAlert(error.message, "error")
     }
 }
 </script>

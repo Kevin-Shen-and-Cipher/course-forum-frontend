@@ -4,23 +4,23 @@
         show-select
         v-model="selected"
         :headers="headers"
-        :items="searchDesserts"
+        :items="table"
         :items-per-page="5"
         class="elevation-1"
         item-key="name"
-        @update:modelValue="$emit('update:modelValue', selected)"
+        @update:modelValue="$emit('update:selectedData', selected)"
     >
         <template v-slot:top>
             <TagsEdit
                 v-model="showDialog"
-                :tags="editTag"
+                :tags="tagData"
                 @closeDialog="closeDialog"
-                @editData="editData"
+                @editData="editTag"
             />
             <DeleteData
                 v-model="showDeleteDialog"
                 title="標籤"
-                :data="editTag"
+                :data="tagData"
                 @closeDialog="closeDialog"
                 @deleteData="deleteData"
             />
@@ -32,14 +32,15 @@
     </v-data-table>
 </template>
 <script setup>
-import axios from 'axios';
 import { ref, watch, computed } from 'vue';
-import { useAlertStore } from '@/store/alert.js';
+import { useTagsStore } from '@/store/Tags.js';
 import TagsEdit from '@/components/Admin/TagsEdit.vue';
 import DeleteData from '@/components/Admin/DeleteData.vue';
-const emits = defineEmits(['update:modelValue', 'callReFetch']);
-const alertStore = useAlertStore();
-const props = defineProps({ searchInput: { type: String }, data: { type: Object } });
+const tagsStore = useTagsStore();
+const table = computed(() => tagsStore.searchResult);
+
+//編輯Tag的暫存變數
+const tagData = ref([]);
 
 //編輯以及刪除的小視窗顯示
 const showDialog = ref(false);
@@ -53,14 +54,10 @@ const headers = ref([
         sortable: false,
         key: 'name',
     },
-    { title: '建立日期', align: 'end', key: 'date' },
+    { title: '建立日期', align: 'end', key: 'created_at' },
     { title: '操作', align: 'end', key: 'actions' },
 ]);
 const selected = ref([]);
-const searchDesserts = computed(() => props.data);
-
-//編輯Tag的暫存變數
-const editTag = ref([]);
 
 //關閉小視窗
 function closeDialog() {
@@ -71,57 +68,28 @@ function closeDialog() {
 //開啟編輯視窗
 function editOn(data) {
     showDialog.value = true;
-    editTag.value = data;
-}
-
-//編輯資料
-async function editData() {
-    try {
-        await axios.patch(
-            import.meta.env.VITE_APP_API_URL + '/tags/' + editTag.value.id,
-            editTag.value,
-        );
-        emits('callReFetch');
-        alertStore.callAlert('編輯完成');
-        closeDialog();
-    } catch (error) {
-        alertStore.callAlert(error.message, 'error');
-    }
+    tagData.value = data;
 }
 
 //開啟刪除確認視窗
 function deleteOn(data) {
     showDeleteDialog.value = true;
-    editTag.value = data;
+    tagData.value = data;
+}
+
+//編輯資料
+async function editTag() {
+    tagsStore.editTag(tagData.value);
+    closeDialog();
 }
 
 //刪除資料
 async function deleteData() {
-    showDeleteDialog.value = false;
-    try {
-        await axios.delete(import.meta.env.VITE_APP_API_URL + '/tags/' + editTag.value.id);
-        emits('callReFetch');
-        alertStore.callAlert('刪除成功');
-    } catch (error) {
-        alertStore.callAlert(error.message, 'error');
-    }
+    await tagsStore.deleteTags([tagData.value.id]);
+    closeDialog();
 }
 
-//搜尋標籤
-function searchTags(tagName) {
-    searchDesserts.value = props.data.filter((dessert) => {
-        if (tagName && !dessert.name.includes(tagName)) {
-            return false;
-        }
-        return true;
-    });
-}
-
-//隨時判斷搜尋字串的輸入
-watch(
-    () => props.searchInput,
-    (now) => {
-        searchTags(now);
-    },
-);
+watch(table, () => {
+    selected.value = [];
+});
 </script>

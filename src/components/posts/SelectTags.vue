@@ -1,7 +1,8 @@
 <template>
     <v-combobox
+        v-if="tagsStore.tags"
         v-model="chips"
-        :items="tags"
+        :items="tagsStore.tags"
         item-value="id"
         item-title="name"
         chips
@@ -28,10 +29,10 @@
     </v-combobox>
 </template>
 <script setup>
-import { onMounted, ref, watch } from 'vue';
-import axios from 'axios';
-import {useAlertStore} from '@/store/Alert.js'
-const alertStore = useAlertStore();
+import { ref, watch } from 'vue';
+import { useTagsStore } from '@/store/Tags.js';
+const tagsStore = useTagsStore();
+tagsStore.fetchTags();
 defineProps({
     label: {
         type: String,
@@ -39,30 +40,26 @@ defineProps({
     },
 });
 const chips = ref([]);
-const tags = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
 }
 
-function handleChipsChange(newVal, oldVal) {
+watch(chips, (newVal, oldVal) => {
     if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
+        //回傳不存在的tag
+        const invalidChips = newVal.filter((chip) => {
+            if (tagsStore.tags.find((tag) => tag.id === chip) != null) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        console.log(chips.value.filter((chip) => !invalidChips.includes(chip)));
+        //把不存在的tag移除
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
-}
-
-watch(chips, handleChipsChange);
-async function fetchTags() {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        tags.value = response.data;
-    } catch (error) {
-        alertStore.callAlert(error.message, 'error')
-    }
-}
-
-onMounted(fetchTags);
+});
 </script>
 <style scoped>
 .tags {

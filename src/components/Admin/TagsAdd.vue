@@ -14,9 +14,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" variant="text" @click="$emit('addTags', tags)">
-                    儲存
-                </v-btn>
+                <v-btn color="blue-darken-1" variant="text" @click="addTag"> 儲存 </v-btn>
                 <v-btn color="blue-darken-1" variant="text" @click="$emit('dialogAction', false)">
                     取消
                 </v-btn>
@@ -26,5 +24,12 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { useTagsStore } from '@/store/Tags';
+const tagsStore = useTagsStore();
+const emit = defineEmits('dialogAction');
 const tags = ref('');
+async function addTag() {
+    await tagsStore.addTag(tags.value);
+    emit('dialogAction', false);
+}
 </script>

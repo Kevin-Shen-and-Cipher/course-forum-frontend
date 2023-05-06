@@ -22,14 +22,18 @@
             </v-expansion-panel>
         </v-expansion-panels>
         <v-combobox
+            v-if="tagsStore.tags"
             v-model="chips"
-            :items="tags"
+            :items="tagsStore.tags"
+            item-value="name"
+            item-title="name"
             chips
             clearable
             label="標籤"
             multiple
             variant="solo"
             style="margin: 15px"
+            :return-object="false"
             @update:modelValue="$emit('update:tag', chips)"
         >
             <template v-slot:selection="{ attrs, item, select, selected }">
@@ -40,7 +44,7 @@
                     @click="select"
                     @click:close="remove(item)"
                 >
-                    <strong>{{ item }}</strong>
+                    <strong>{{ item.name }}</strong>
                     <span>(interest)</span>
                 </v-chip>
             </template>
@@ -48,37 +52,34 @@
     </div>
 </template>
 <script setup>
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { ref, watch, onMounted } from 'vue';
-const router = useRouter();
+import { ref, watch } from 'vue';
+import { useTagsStore } from '@/store/Tags';
+const tagsStore = useTagsStore();
+tagsStore.fetchTags();
 const chips = ref([]);
 const apartment = ref(['資訊工程系', '機械工程系']);
 const selectedApartment = ref([]);
-const tags = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
 }
 
-watch(chips, (newVal, oldVal) => {
+function removeInvaildChip(newVal, oldVal) {
     if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
+        //回傳不存在的tag
+        const invalidChips = newVal.filter((chip) => {
+            if (tagsStore.tags.find((tag) => tag.name === chip) != null) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        //把不存在的tag移除
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
-});
+}
 
-onMounted(async () => {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        for (const i of response.data) {
-            tags.value.push(i.name);
-        }
-    } catch (error) {
-        console.log(error);
-        router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
-    }
-});
+watch(chips, removeInvaildChip);
 </script>
 
 <style scoped>
