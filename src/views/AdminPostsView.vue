@@ -20,11 +20,8 @@
                     >
                 </div>
             </div>
-            <div class="d-flex scroll-container">
-                <PostsDataTable
-                    v-model:selectedData="selectedData"
-                    :searchInput="searchInput"
-                />
+            <div class="d-flex scroll-container" v-if="postsStore.searchResult">
+                <PostsDataTable v-model:selectedData="selectedData" :searchInput="searchInput" />
             </div>
         </div>
     </div>
@@ -47,7 +44,7 @@ const selectedData = ref([]);
 
 watch(searchInput, () => {
     postsStore.searchPosts(searchInput.value);
-})
+});
 </script>
 
 <style scoped>

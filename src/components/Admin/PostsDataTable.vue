@@ -41,6 +41,7 @@ const headers = ref([
 ]);
 const selected = ref([]);
 const table = computed(() => postsStore.searchResult);
+
 function checkPost(id) {
     const routerData = router.resolve({ name: 'AdminPostsCheck', params: { id: id } });
     window.open(routerData.href, '_blank');
