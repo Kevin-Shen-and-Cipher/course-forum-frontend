@@ -4,9 +4,6 @@ import axios from 'axios';
 const alertStore = useAlertStore();
 export const usePostsStore = defineStore({
   id: "posts",
-  persist:{
-    key: "posts"
-  },
   state: () => ({
     posts: null,
     post: null,
