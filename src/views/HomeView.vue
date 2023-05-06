@@ -6,8 +6,11 @@
         </div>
         <div class="d-flex flex-column align-center justify-center">
             <Search v-model="searchInput" />
-            <div class="scroll-container light">
-                <Post v-for="post in searchResult.data" :post="post" />
+            <div class="scroll-container light" v-if="postsData.length != 0">
+                <Post v-for="post in postsData" :post="post" />
+            </div>
+            <div class="scroll-container light" v-else>
+                <NoPost />
             </div>
         </div>
         <div class="d-flex justify-start align-end" style="width: 30%">
@@ -28,61 +31,32 @@
 import Post from '@/components/Home/Post.vue';
 import Search from '@/components/Home/Search.vue';
 import Filter from '@/components/Home/Filter.vue';
+import NoPost from '@/components/Home/NoPost.vue';
+import { usePostsStore } from '@/store/posts.js';
 
-import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { onMounted, reactive, ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 const router = useRouter();
-
+const postsStore = usePostsStore();
 const selectedData = ref([]);
 const tagData = ref([]);
 const searchInput = ref('');
 
-const posts = reactive({
-    data: null,
-    error: null,
+postsStore.fetchPosts();
+const postsData = computed(() => {
+    return postsStore.searchResult.filter((data) => data.state);
 });
-
-const searchResult = reactive({
-    data: null,
-    error: null,
-});
-
 async function addPost() {
     await router.push('/posts/add');
 }
 
-async function fetchPosts() {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts');
-        posts.data = response.data;
-        searchResult.data = posts.data;
-    } catch (error) {
-        posts.error = error;
-        await router.push({ path: import.meta.env.VITE_APP_ERROR_ROUTER });
-    }
-}
-
-onMounted(fetchPosts);
-
-function searchPosts(searchString, selectData, tagData) {
-    searchResult.data = posts.data.filter((post) => {
-        if (searchString && !post.title.includes(searchString)) {
-            return false;
-        }
-        if (selectData.length && !selectData.includes(post.create_by)) {
-            return false;
-        }
-        if (tagData.length && !post.tags.some((tag) => tagData.includes(tag.name))) {
-            return false;
-        }
-        return true;
-    });
-}
-
 watch([searchInput, selectedData, tagData], () => {
-    searchPosts(searchInput.value, selectedData.value, tagData.value);
+    postsStore.searchPosts(
+        searchInput.value,
+        selectedData.value,
+        tagData.value
+    );
 });
 </script>
 

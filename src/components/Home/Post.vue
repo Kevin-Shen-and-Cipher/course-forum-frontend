@@ -34,7 +34,6 @@
 </template>
 <script setup>
 import router from '@/router/router';
-
 const props = defineProps({
     post: {
         type: Object,
