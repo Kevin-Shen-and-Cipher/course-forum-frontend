@@ -7,6 +7,15 @@
         </v-toolbar-title>
         <div v-if="authStore.token" style="margin-right: 40px">
             <a style="margin-right: 20px">{{ authStore.apartment }}</a>
+            <v-btn
+                variant="outlined"
+                color="rgba(70, 105,147, 1)"
+                @click="admin"
+                style="margin-right: 10px"
+                v-if="authStore.admin"
+            >
+                管理員
+            </v-btn>
             <v-btn variant="outlined" color="rgba(70, 105,147, 1)" @click="logout"> 登出 </v-btn>
         </div>
         <div v-else style="margin-right: 40px">
@@ -37,14 +46,22 @@ const route = useRoute();
 const router = useRouter();
 const loginButton = computed(() => route.name === 'login');
 
+if (authStore.token != null){
+    authStore.verify();
+}
+
 function sendLogin() {
     router.push('/login');
+}
+
+function admin() {
+    router.push('/admin/posts');
 }
 
 function logout() {
     authStore.removeAuth();
     backMain();
-    alertStore.callAlert("登出!");
+    alertStore.callAlert('登出!');
 }
 
 function backMain() {

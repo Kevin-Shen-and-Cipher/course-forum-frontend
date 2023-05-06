@@ -30,25 +30,16 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/store/auth';
-import { useAlertStore } from '@/store/alert';
-
+import { useAuthStore } from '@/store/Auth.js';
 const authStore = useAuthStore();
-const alertStore = useAlertStore();
+const router = useRouter();
 const username = ref('');
 const password = ref('');
-const response = reactive({
-    data: '',
-});
-const router = useRouter();
-
 function login() {
-    response.data = { token: 'test', apartment: '資訊工程系' };
-    authStore.setAuth(response.data.token, response.data.apartment);
-    router.push('/home')
-    alertStore.callAlert("登入成功");
+    authStore.login({ account: username, password: password });
+    router.push('/home');
 }
 </script>
 <style scoped>
