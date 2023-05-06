@@ -4,7 +4,7 @@
         show-select
         v-model="selected"
         :headers="headers"
-        :items="searchDesserts"
+        :items="table"
         :items-per-page="5"
         class="elevation-1"
         item-key="name"
@@ -14,80 +14,39 @@
             <v-btn variant="text" @click="checkPost(item.raw.id)"> 查看文章 </v-btn>
             <v-btn
                 variant="text"
-                v-if="!item.raw.btnCheck"
+                v-if="!item.raw.state"
                 color="success"
-                @click="verifyPass(item.raw.id)"
+                @click="postsStore.verifySelectedPass([item.raw.id])"
             >
                 通過審核
             </v-btn>
-            <v-btn variant="text" color="red" @click="deletePosts(item.raw.id)"> 刪除文章 </v-btn>
+            <v-btn variant="text" color="red" @click="postsStore.deletePosts([item.raw.id])">
+                刪除文章
+            </v-btn>
         </template>
     </v-data-table>
 </template>
 <script setup>
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { ref, watch, computed } from 'vue';
-import { useAlertStore } from '@/store/alert';
+import { usePostsStore } from '@/store/posts';
 const router = useRouter();
-const alertStore = useAlertStore();
-const props = defineProps({ searchInput: { type: String }, data: { type: Object } });
-const emits = defineEmits(['callReFetch', 'update:selectedData']);
-const selected = ref([]);
+const postsStore = usePostsStore();
+defineEmits(['update:selectedData']);
 const headers = ref([
-    {
-        title: '文章名稱',
-        align: 'start',
-        sortable: false,
-        key: 'name',
-    },
-    { title: '狀態', align: 'end', key: 'state' },
-    { title: '日期', align: 'end', key: 'date' },
+    { title: '文章名稱', align: 'start', key: 'title' },
+    { title: '狀態', align: 'end', key: 'verify' },
+    { title: '日期', align: 'end', key: 'created_at' },
     { title: '操作', align: 'end', key: 'actions' },
 ]);
-const searchDesserts = computed(() => props.data);
-
+const selected = ref([]);
+const table = computed(() => postsStore.searchResult);
 function checkPost(id) {
     const routerData = router.resolve({ name: 'AdminPostsCheck', params: { id: id } });
     window.open(routerData.href, '_blank');
 }
 
-async function verifyPass(id) {
-    try {
-        await axios.patch(import.meta.env.VITE_APP_API_URL + '/posts/' + id, {
-            state: true,
-        });
-        emits('callReFetch');
-        alertStore.callAlert("審核成功");
-    } catch (error) {
-        alertStore.callAlert(error.message, "error");
-        console.log(alertStore.type)
-    }
-}
-
-async function deletePosts(id) {
-    try {
-        await axios.delete(import.meta.env.VITE_APP_API_URL + '/posts/' + id);
-        emits('callReFetch');
-        alertStore.callAlert("刪除成功");
-    } catch (error) {
-        alertStore.callAlert(error.message, "error");
-    }
-}
-
-function searchPosts(postTitle) {
-    searchDesserts.value = props.data.filter((dessert) => {
-        if (postTitle !== '' && !dessert.name.includes(postTitle)) {
-            return false;
-        }
-        return true;
-    });
-}
-
-watch(
-    () => props.searchInput,
-    (now) => {
-        searchPosts(now);
-    },
-);
+watch(table, () => {
+    selected.value = [];
+});
 </script>
