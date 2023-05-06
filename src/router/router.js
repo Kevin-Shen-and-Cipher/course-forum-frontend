@@ -4,13 +4,14 @@ import {useAlertStore} from '@/store/alert.js';
 function checkToken(to, from, next){
     const authStore = useAuthStore();
     const alertStore = useAlertStore();
-    if (to.names === 'AdminTags'){
+    if (to.name === 'AdminTags' || to.name === 'AdminPosts' || to.name === 'AdminPostsCheck'){
         if (authStore.admin){
             next();
             return;
         }
         alertStore.callAlert("權限不足", 'info');
         router.push('/home');
+        return;
     }
     if (authStore.token){
         next();
@@ -18,6 +19,7 @@ function checkToken(to, from, next){
     }
     alertStore.callAlert("請先登入", 'info');
     router.push('/home');
+    return;
 }
 const routes = [
     {
@@ -50,16 +52,19 @@ const routes = [
         path: '/admin/tags',
         name: 'AdminTags',
         component: () => import('@/views/AdminTagsView.vue'),
+        beforeEnter: checkToken,
     },
     {
         path: '/admin/posts',
         name: 'AdminPosts',
         component: () => import('@/views/AdminPostsView.vue'),
+        beforeEnter: checkToken,
     },
     {
         path: '/admin/posts/check/:id',
         name: 'AdminPostsCheck',
         component: () => import('@/views/CheckPosts.vue'),
+        beforeEnter: checkToken,
     },
 ];
 

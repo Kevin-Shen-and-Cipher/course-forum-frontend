@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import {useAlertStore} from '@/store/alert.js';
+import {useAlertStore} from '@/store/Alert.js';
+import {useAuthStore} from '@/store/Auth.js';
 import axios from 'axios';
-const alertStore = useAlertStore();
 export const usePostsStore = defineStore({
   id: "posts",
   state: () => ({
@@ -20,7 +20,7 @@ export const usePostsStore = defineStore({
             });
             this.searchResult = this.posts;
         } catch (error) {
-            alertStore.callAlert(error.message, 'error');
+            useAlertStore().callAlert(error.message, 'error');
         }
     },
     async fetchPost(id){
@@ -28,16 +28,20 @@ export const usePostsStore = defineStore({
             const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts/' + id);
             this.post = response.data;
         } catch (error) {
-            alertStore.callAlert(error.message, 'error');
+            useAlertStore().callAlert(error.message, 'error');
         }
     },
     async addPost(post) {
         try {
-            await axios.post(import.meta.env.VITE_APP_API_URL + '/posts', post);
-            alertStore.callAlert("新增成功");
+            await axios.post(import.meta.env.VITE_APP_API_URL + '/posts', post,{
+                headers: {
+                  Authorization: 'Bearer ' +  useAuthStore().token
+                }
+               });
+            useAlertStore().callAlert("新增成功");
             return true;
         } catch (error) {
-            alertStore.callAlert(error.message, "error")
+            useAlertStore().callAlert(error.message, "error")
             return false;
         }
     },
@@ -60,23 +64,32 @@ export const usePostsStore = defineStore({
             for (const i of selectedData) {
                 await axios.patch(import.meta.env.VITE_APP_API_URL + '/posts/' + i, {
                     state: true,
+                },
+                {
+                headers: {
+                    Authorization: 'Bearer ' +  useAuthStore().token
+                }
                 });
             }
             this.fetchPosts();
-            alertStore.callAlert('全部審核通過');
+            useAlertStore().callAlert('全部審核通過');
         } catch (error) {
-            alertStore.callAlert(error.message, 'error');
+            useAlertStore().callAlert(error.message, 'error');
         }
     },
     async deletePosts(selectedData) {
         try {
             for (const i of selectedData) {
-                await axios.delete(import.meta.env.VITE_APP_API_URL + '/posts/' + i);
+                await axios.delete(import.meta.env.VITE_APP_API_URL + '/posts/' + i,{
+                    headers: {
+                      Authorization: 'Bearer ' +  useAuthStore().token
+                    }
+                   });
             }
             this.fetchPosts();
-            alertStore.callAlert('全部刪除成功');
+            useAlertStore().callAlert('全部刪除成功');
         } catch (error) {
-            alertStore.callAlert(error.message, 'error');
+            useAlertStore().callAlert(error.message, 'error');
         }
         
     }

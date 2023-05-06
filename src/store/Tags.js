@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import {useAlertStore} from '@/store/alert.js';
+import {useAlertStore} from '@/store/Alert.js';
+import { useAuthStore } from '@/store/Auth.js';
 import axios from 'axios';
 const alertStore = useAlertStore();
 export const useTagsStore = defineStore({
@@ -32,7 +33,11 @@ export const useTagsStore = defineStore({
     },
     async addTag(tagName) {
         try {
-            await axios.post(import.meta.env.VITE_APP_API_URL + '/tags', {name: tagName});
+            await axios.post(import.meta.env.VITE_APP_API_URL + '/tags', {name: tagName},{
+                headers: {
+                  Authorization: 'Bearer ' +  useAuthStore().token
+                }
+               });
             alertStore.callAlert("新增成功");
             this.fetchTags();
         } catch (error) {
@@ -43,7 +48,12 @@ export const useTagsStore = defineStore({
         try {
             await axios.patch(
                 import.meta.env.VITE_APP_API_URL + '/tags/' + editTag.id,
-                editTag
+                editTag,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' +  useAuthStore().token
+                    }
+                }
             );
             alertStore.callAlert('編輯完成');
         } catch (error) {
@@ -61,7 +71,11 @@ export const useTagsStore = defineStore({
     async deleteTags(selectedData) {
         try {
             for (const i of selectedData) {
-                await axios.delete(import.meta.env.VITE_APP_API_URL + '/tags/' + i);
+                await axios.delete(import.meta.env.VITE_APP_API_URL + '/tags/' + i,{
+                    headers: {
+                      Authorization: 'Bearer ' +  useAuthStore().token
+                    }
+                   });
             }
             this.fetchTags();
             alertStore.callAlert('刪除成功');
