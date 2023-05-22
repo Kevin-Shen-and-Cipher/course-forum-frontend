@@ -1,6 +1,8 @@
 <template>
     <div class="d-flex">
-        <v-chip v-for="i in tagsData" v-if="tagsData"> #{{ i.names }}</v-chip>
+        <v-chip v-for="i in tagsData" v-if="tagsData" style="margin-left: 10px">
+            #{{ i.name }}</v-chip
+        >
     </div>
 </template>
 <script setup>

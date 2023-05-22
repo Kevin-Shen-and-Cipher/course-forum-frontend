@@ -1,67 +1,65 @@
 <template>
     <v-combobox
+        v-if="tagsStore.tags"
         v-model="chips"
-        :items="tags"
+        :items="tagsStore.tags"
+        item-value="id"
+        item-title="name"
         chips
         clearable
         :label="label"
         multiple
         variant="solo"
         class="tags"
+        :return-object="false"
+        @update:modelValue="$emit('update:modelValue', chips)"
     >
         <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip
                 v-bind="attrs"
                 :model-value="selected"
-                closable
+                close
                 @click="select"
                 @click:close="remove(item)"
             >
-                <strong>{{ item }}</strong>
+                <strong>{{ item.name }}</strong>
                 <span>(interest)</span>
             </v-chip>
         </template>
     </v-combobox>
 </template>
 <script setup>
-import { onMounted, ref, watch } from 'vue';
-import axios from 'axios';
-
-const props = defineProps({
+import { ref, watch } from 'vue';
+import { useTagsStore } from '@/store/Tags.js';
+const tagsStore = useTagsStore();
+tagsStore.fetchTags();
+defineProps({
     label: {
         type: String,
         required: true,
     },
 });
 const chips = ref([]);
-const tags = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
 }
 
-function handleChipsChange(newVal, oldVal) {
+watch(chips, (newVal, oldVal) => {
     if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
+        //回傳不存在的tag
+        const invalidChips = newVal.filter((chip) => {
+            if (tagsStore.tags.find((tag) => tag.id === chip) != null) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        console.log(chips.value.filter((chip) => !invalidChips.includes(chip)));
+        //把不存在的tag移除
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
-}
-
-watch(chips, handleChipsChange);
-
-async function fetchTags() {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        for (const i of response.data) {
-            tags.value.push(i.name);
-        }
-    } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
-    }
-}
-
-onMounted(fetchTags);
+});
 </script>
 <style scoped>
 .tags {

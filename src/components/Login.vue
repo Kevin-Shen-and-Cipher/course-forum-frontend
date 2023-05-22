@@ -32,12 +32,13 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import { useAuthStore } from '@/store/Auth.js';
+const authStore = useAuthStore();
+const router = useRouter();
 const username = ref('');
 const password = ref('');
-const router = useRouter();
-
 function login() {
+    authStore.login({ account: username, password: password });
     router.push('/home');
 }
 </script>

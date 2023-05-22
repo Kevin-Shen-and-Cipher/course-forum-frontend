@@ -2,12 +2,15 @@
     <div class="d-flex justify-center" style="width: 100%">
         <div class="d-flex align-end flex-column" style="width: 30%">
             <div class="d-flex justify-end" style="height: 100px"></div>
-            <Filter />
+            <Filter v-model:select="selectedData" v-model:tag="tagData" />
         </div>
         <div class="d-flex flex-column align-center justify-center">
-            <Search />
-            <div class="scroll-container light">
-                <Post v-for="post in posts.data" :post="post" />
+            <Search v-model="searchInput" />
+            <div class="scroll-container light" v-if="postsData.length != 0">
+                <Post v-for="post in postsData" :post="post" />
+            </div>
+            <div class="scroll-container light" v-else>
+                <NoPost />
             </div>
         </div>
         <div class="d-flex justify-start align-end" style="width: 30%">
@@ -27,34 +30,33 @@
 <script setup>
 import Post from '@/components/Home/Post.vue';
 import Search from '@/components/Home/Search.vue';
-
-import axios from 'axios';
-import { useRouter } from 'vue-router';
-import { onMounted, reactive } from 'vue';
 import Filter from '@/components/Home/Filter.vue';
+import NoPost from '@/components/Home/NoPost.vue';
+import { usePostsStore } from '@/store/posts.js';
 
+import { useRouter } from 'vue-router';
+import { ref, watch, computed, onBeforeMount } from 'vue';
+defineEmits('update:tag');
 const router = useRouter();
-
-const posts = reactive({
-    data: null,
-    error: null,
+const postsStore = usePostsStore();
+const selectedData = ref([]);
+const tagData = ref([]);
+const searchInput = ref('');
+const postsData = computed(() => {
+    if (postsStore.searchResult == null) {
+        return {};
+    }
+    return postsStore.searchResult.filter((data) => data.state);
 });
-
 async function addPost() {
     await router.push('/posts/add');
 }
 
-async function fetchPosts() {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/posts');
-        posts.data = response.data;
-    } catch (error) {
-        posts.error = error;
-        await router.push({ path: import.meta.env.VITE_APP_ERROR_ROUTER });
-    }
-}
+watch([searchInput, selectedData, tagData], () => {
+    postsStore.searchPosts(searchInput.value, selectedData.value, tagData.value);
+});
 
-onMounted(fetchPosts);
+onBeforeMount(async () => postsStore.fetchPosts());
 </script>
 
 <style scoped>

@@ -4,26 +4,37 @@
         show-select
         v-model="selected"
         :headers="headers"
-        :items="desserts"
+        :items="table"
         :items-per-page="5"
         class="elevation-1"
         item-key="name"
+        @update:modelValue="$emit('update:selectedData', selected)"
     >
         <template v-slot:top>
-            <TagsEdit v-model="showDialog" :tags="editTag" />
+            <TagsEdit v-model="showDialog" :tags="tagData" @closeDialog="closeDialog" />
         </template>
         <template v-slot:item.actions="{ item }">
             <v-btn variant="text" @click="editOn(item.raw)"> 編輯標籤 </v-btn>
-            <v-btn variant="text" color="red"> 刪除標籤 </v-btn>
+            <v-btn variant="text" color="red" @click="() => tagsStore.deleteTags([item.raw.id])">
+                刪除標籤
+            </v-btn>
         </template>
     </v-data-table>
 </template>
 <script setup>
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { ref, watch, computed } from 'vue';
+import { useTagsStore } from '@/store/Tags.js';
 import TagsEdit from '@/components/Admin/TagsEdit.vue';
+const tagsStore = useTagsStore();
+const table = computed(() => tagsStore.searchResult);
 
-const selected = ref([]);
+//編輯Tag的暫存變數
+const tagData = ref([]);
+
+//編輯以及刪除的小視窗顯示
+const showDialog = ref(false);
+
+//DataTable的相關變數
 const headers = ref([
     {
         title: '標籤名稱',
@@ -31,32 +42,23 @@ const headers = ref([
         sortable: false,
         key: 'name',
     },
-    { title: '建立日期', align: 'end', key: 'date' },
+    { title: '建立日期', align: 'end', key: 'created_at' },
     { title: '操作', align: 'end', key: 'actions' },
 ]);
-const desserts = ref([]);
-const editTag = ref([]);
-const showDialog = ref(false);
+const selected = ref([]);
+
+//關閉小視窗
+function closeDialog() {
+    showDialog.value = false;
+}
+
+//開啟編輯視窗
 function editOn(data) {
     showDialog.value = true;
-    editTag.value = data;
+    tagData.value = data;
 }
 
-async function fetchTags() {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        for (const i of response.data) {
-            desserts.value.push({
-                id: i.id,
-                name: i.name,
-                date: i.created_at.substring(0, 10),
-            });
-        }
-    } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
-    }
-}
-
-onMounted(fetchTags);
+watch(table, () => {
+    selected.value = [];
+});
 </script>

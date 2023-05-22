@@ -1,14 +1,14 @@
 <template>
     <div
-        v-if="postData.data"
+        v-if="postStore.post"
         class="d-flex flex-column justify-center align-center"
         style="width: 100%; height: 100%"
     >
         <div class="content d-flex flex-column justify-end" style="height: 10%">
             <div class="d-flex align-end">
                 <PostCreatedDetail
-                    :show-date="postData.data.created_at.substring(0, 10)"
-                    :department="postData.data.create_by"
+                    :show-date="postStore.post.created_at.substring(0, 10)"
+                    :department="postStore.post.create_by"
                 />
             </div>
             <v-divider
@@ -21,18 +21,18 @@
         <div class="content d-flex flex-column" style="height: 90%">
             <div class="d-flex align-center justify-space-between mb-6">
                 <v-label
-                    :text="postData.data.title"
+                    :text="postStore.post.title"
                     style="font-size: 32pt; margin: 10px 0px"
                 ></v-label>
                 <div class="d-flex">
-                    <Rating :rating-readonly="true" :rating="postData.data.score" />
+                    <Rating :rating-readonly="true" :rating="postStore.post.score" />
                 </div>
             </div>
             <v-field style="font-size: 16pt; color: black" variant="plain">
-                {{ postData.data.content }}
+                {{ postStore.post.content }}
             </v-field>
             <div class="d-flex justify-space-between">
-                <ShowTgas :tagsData="postData.data.tags" />
+                <ShowTgas :tagsData="postStore.post.tags" />
                 <v-btn
                     prepend-icon="mdi-keyboard-return"
                     variant="text"
@@ -50,33 +50,16 @@ import Rating from '@/components/posts/Rating.vue';
 import ShowTgas from '@/components/posts/ShowTags.vue';
 import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import { reactive, onBeforeMount } from 'vue';
+import { usePostsStore } from '@/store/posts';
 
 const route = useRoute();
 const router = useRouter();
-const postData = reactive({
-    data: null,
-    error: null,
-});
+const postStore = usePostsStore();
+postStore.fetchPost(route.params.id);
 
 function backMain() {
     router.push('/home');
 }
-
-async function fetchPostData() {
-    try {
-        const response = await axios.get(
-            import.meta.env.VITE_APP_API_URL + '/posts/' + route.params.id,
-        );
-        postData.data = response.data;
-    } catch (error) {
-        console.log(error);
-        await router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
-    }
-}
-
-onBeforeMount(fetchPostData);
 </script>
 
 <style scoped>

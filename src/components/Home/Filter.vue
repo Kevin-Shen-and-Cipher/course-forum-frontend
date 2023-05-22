@@ -4,20 +4,37 @@
             <v-expansion-panel>
                 <v-expansion-panel-title> 系所 </v-expansion-panel-title>
                 <v-expansion-panel-text>
-                    <v-checkbox label="資訊工程系" style="height: 45px; color: black" />
-                    <v-checkbox label="機械工程系" style="height: 45px; color: black" />
+                    <v-checkbox
+                        class="checkBox"
+                        label="資訊工程系"
+                        :value="apartment[0]"
+                        v-model="selectedApartment"
+                        @change="$emit('update:select', selectedApartment)"
+                    />
+                    <v-checkbox
+                        class="checkBox"
+                        label="機械工程系"
+                        :value="apartment[1]"
+                        v-model="selectedApartment"
+                        @change="$emit('update:select', selectedApartment)"
+                    />
                 </v-expansion-panel-text>
             </v-expansion-panel>
         </v-expansion-panels>
         <v-combobox
+            v-if="tagsStore.tags"
             v-model="chips"
-            :items="tags"
+            :items="tagsStore.tags"
+            item-value="name"
+            item-title="name"
             chips
             clearable
             label="標籤"
             multiple
             variant="solo"
             style="margin: 15px"
+            :return-object="false"
+            @update:modelValue="$emit('update:tag', chips)"
         >
             <template v-slot:selection="{ attrs, item, select, selected }">
                 <v-chip
@@ -27,7 +44,7 @@
                     @click="select"
                     @click:close="remove(item)"
                 >
-                    <strong>{{ item }}</strong>
+                    <strong>{{ item.name }}</strong>
                     <span>(interest)</span>
                 </v-chip>
             </template>
@@ -35,36 +52,40 @@
     </div>
 </template>
 <script setup>
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { ref, watch, onMounted } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
+import { useTagsStore } from '@/store/Tags';
+const tagsStore = useTagsStore();
 
-const router = useRouter();
 const chips = ref([]);
-const tags = ref(['hi']);
+const apartment = ref(['資訊工程系', '機械工程系']);
+const selectedApartment = ref([]);
 
 function remove(item) {
     chips.value.splice(chips.value.indexOf(item), 1);
 }
 
-watch(chips, (newVal, oldVal) => {
+function removeInvaildChip(newVal, oldVal) {
     if (newVal.length > oldVal.length) {
-        const invalidChips = newVal.filter((chip) => !tags.value.includes(chip));
+        //回傳不存在的tag
+        const invalidChips = newVal.filter((chip) => {
+            if (tagsStore.tags.find((tag) => tag.name === chip) != null) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        //把不存在的tag移除
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
-});
+}
 
-onMounted(async () => {
-    try {
-        const response = await axios.get(import.meta.env.VITE_APP_API_URL + '/tags');
-        for (const i of response.data) {
-            tags.value.push(i.name);
-        }
-    } catch (error) {
-        console.log(error);
-        router.push(import.meta.env.VITE_APP_ERROR_ROUTER);
-    }
-});
+watch(chips, removeInvaildChip);
+onBeforeMount(async () => tagsStore.fetchTags());
 </script>
 
-<style scoped></style>
+<style scoped>
+.checkBox {
+    height: 45px;
+    color: black;
+}
+</style>
