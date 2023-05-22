@@ -29,7 +29,7 @@ const tagsStore = useTagsStore();
 const emit = defineEmits('dialogAction');
 const tags = ref('');
 async function addTag() {
-    await tagsStore.addTag({name: tags.value});
+    await tagsStore.addTag({ name: tags.value });
     emit('dialogAction', false);
 }
 </script>

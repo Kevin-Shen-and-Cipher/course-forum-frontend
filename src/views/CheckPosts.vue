@@ -31,10 +31,7 @@
         </div>
         <div class="content d-flex flex-column" style="height: 90%">
             <div class="d-flex align-center justify-space-between mb-6">
-                <v-label
-                    :text="postData.title"
-                    style="font-size: 32pt; margin: 10px 0px"
-                ></v-label>
+                <v-label :text="postData.title" style="font-size: 32pt; margin: 10px 0px"></v-label>
                 <div class="d-flex">
                     <Rating :rating-readonly="true" :rating="postData.score" />
                 </div>
@@ -66,17 +63,15 @@ import { computed, onBeforeMount } from 'vue';
 
 const postsStore = usePostsStore();
 const route = useRoute();
-const postData = computed(() => postsStore.post)
-
+const postData = computed(() => postsStore.post);
 
 function verifyDeny() {
     window.close();
 }
 
-async function passVerify(id){
-    if (await postsStore.verifySelectedPass([id])){
+async function passVerify(id) {
+    if (await postsStore.verifySelectedPass([id])) {
         window.close();
-        
     }
 }
 

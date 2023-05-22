@@ -11,15 +11,13 @@
         @update:modelValue="$emit('update:selectedData', selected)"
     >
         <template v-slot:top>
-            <TagsEdit
-                v-model="showDialog"
-                :tags="tagData"
-                @closeDialog="closeDialog"
-            />
+            <TagsEdit v-model="showDialog" :tags="tagData" @closeDialog="closeDialog" />
         </template>
         <template v-slot:item.actions="{ item }">
             <v-btn variant="text" @click="editOn(item.raw)"> 編輯標籤 </v-btn>
-            <v-btn variant="text" color="red" @click="() => tagsStore.deleteTags([item.raw.id])"> 刪除標籤 </v-btn>
+            <v-btn variant="text" color="red" @click="() => tagsStore.deleteTags([item.raw.id])">
+                刪除標籤
+            </v-btn>
         </template>
     </v-data-table>
 </template>

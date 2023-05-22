@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAlertStore } from '@/store/Alert.js';
-import { get,create , getById, updateById, deleteById } from '@/API/Tags.js';
+import { get, create, getById, updateById, deleteById } from '@/API/Tags.js';
 const alertStore = useAlertStore();
 export const useTagsStore = defineStore({
     id: 'tags',
@@ -28,7 +28,7 @@ export const useTagsStore = defineStore({
         },
         async addTag(tagName) {
             try {
-                if (await create(tagName)){
+                if (await create(tagName)) {
                     alertStore.callAlert('新增成功');
                     this.fetchTags();
                 }
@@ -38,7 +38,7 @@ export const useTagsStore = defineStore({
         },
         async editTag(editTag) {
             try {
-                if (await updateById(editTag.id, editTag)){
+                if (await updateById(editTag.id, editTag)) {
                     alertStore.callAlert('編輯完成');
                 }
             } catch (error) {
@@ -56,12 +56,12 @@ export const useTagsStore = defineStore({
         },
         async deleteTags(selectedData) {
             for (const i of selectedData) {
-                if (!await deleteById(i)){
+                if (!(await deleteById(i))) {
                     return false;
                 }
             }
             this.fetchTags();
-            alertStore.callAlert("刪除成功", 'success');
+            alertStore.callAlert('刪除成功', 'success');
             return true;
         },
     },

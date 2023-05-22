@@ -72,10 +72,10 @@ function handleErrors(response, returnJson) {
 function errorHappen(error) {
     const alertStore = useAlertStore();
     const authStore = useAuthStore();
-    if (error === 401){
+    if (error === 401) {
         alertStore.callAlert('認證缺失', 'error');
         authStore.removeAuth();
-    }else if(error === 403){
+    } else if (error === 403) {
         alertStore.callAlert('認證失敗', 'error');
         authStore.removeAuth();
     }

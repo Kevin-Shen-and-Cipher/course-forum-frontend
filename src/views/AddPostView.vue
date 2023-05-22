@@ -56,7 +56,6 @@ import { useAuthStore } from '@/store/Auth.js';
 import { useAlertStore } from '@/store/Alert.js';
 import { create } from '@/API/Posts.js';
 
-
 const router = useRouter();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -82,7 +81,7 @@ async function createPost() {
     }
 }
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
     const date = new Date();
     label.value = '設定標籤';
     showDate.value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
