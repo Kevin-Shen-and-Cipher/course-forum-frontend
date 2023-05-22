@@ -38,7 +38,7 @@
 import BarLogo from '@/assets/topbar_logo.png';
 import { useRoute, useRouter } from 'vue-router';
 import { computed, onBeforeMount } from 'vue';
-import { useAuthStore } from '@/store/Auth.js';
+import { useAuthStore } from '@/store/Auth';
 import { useAlertStore } from '@/store/Alert.js';
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
