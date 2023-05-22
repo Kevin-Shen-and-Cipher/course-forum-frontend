@@ -8,11 +8,11 @@
                 <SelectTags :label="label" v-model="post.tags" />
             </div>
             <div class="d-flex align-end justify-space-between">
-                <PostCreatedDetail :department="authStore.apartment" :showDate="showDate" />
+                <PostCreatedDetail :department="authStore.department" :showDate="showDate" />
                 <div class="d-flex align-center">
                     <Rating v-model:rating="post.score" />
                 </div>
-                <v-btn prepend-icon="mdi-note-plus-outline" @click="addPost"> 發表文章 </v-btn>
+                <v-btn prepend-icon="mdi-note-plus-outline" @click="createPost()"> 發表文章 </v-btn>
             </div>
             <v-divider
                 :thickness="4"
@@ -51,31 +51,42 @@ import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
 import Rating from '@/components/posts/Rating.vue';
 import PostRule from '@/components/posts/PostRule.vue';
 import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
-import {useAuthStore} from '@/store/Auth.js';
-import { usePostsStore } from '@/store/posts.js';
+import { onBeforeMount, reactive, ref } from 'vue';
+import { useAuthStore } from '@/store/Auth.js';
+import { useAlertStore } from '@/store/Alert.js';
+import { create } from '@/API/Posts.js';
+
 
 const router = useRouter();
-const postsStore = usePostsStore();
 const authStore = useAuthStore();
-const label = '設定標籤';
+const alertStore = useAlertStore();
+
+const label = ref(null);
+const showDate = ref(null);
 const post = reactive({
     title: '',
     content: '',
     score: 0,
     tags: [],
     create_by: authStore.apartment,
-})
-const date = new Date();
-const showDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+});
+
 function backMain() {
     router.go(-1);
 }
-async function addPost(){
-    if (postsStore.addPost(post)){
+
+async function createPost() {
+    if (await create(post)) {
+        alertStore.callAlert('新增成功');
         router.push('/home');
     }
 }
+
+onBeforeMount(()=>{
+    const date = new Date();
+    label.value = '設定標籤';
+    showDate.value = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+});
 </script>
 
 <style scoped>

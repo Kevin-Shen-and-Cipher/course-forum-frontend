@@ -31,12 +31,11 @@
 import JumpButton from '@/components/Admin/JumpButton.vue';
 import Search from '@/components/Home/Search.vue';
 import PostsDataTable from '@/components/Admin/PostsDataTable.vue';
-import { usePostsStore } from '@/store/posts';
-import { ref, computed, watch } from 'vue';
+import { usePostsStore } from '@/store/Posts.js';
+import { ref, computed, watch, onBeforeMount } from 'vue';
 defineEmits(['update:selectedData']);
 
 const postsStore = usePostsStore();
-postsStore.fetchPosts();
 
 const searchInput = ref('');
 const buttonDisabled = computed(() => selectedData.value.length === 0);
@@ -45,6 +44,8 @@ const selectedData = ref([]);
 watch(searchInput, () => {
     postsStore.searchPosts(searchInput.value);
 });
+
+onBeforeMount(async () => postsStore.fetchPosts());
 </script>
 
 <style scoped>

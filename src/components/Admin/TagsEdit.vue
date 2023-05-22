@@ -18,7 +18,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" variant="text" @click="$emit('editData')">
+                <v-btn color="blue-darken-1" variant="text" @click="() => {tagsStore.editTag(tags)}">
                     儲存
                 </v-btn>
                 <v-btn color="blue-darken-1" variant="text" @click="$emit('closeDialog')">
@@ -29,10 +29,14 @@
     </v-dialog>
 </template>
 <script setup>
+import { useTagsStore } from '@/store/Tags.js';
+
 defineProps({
     tags: {
         type: Object,
         required: true,
     },
 });
+
+const tagsStore = useTagsStore();
 </script>

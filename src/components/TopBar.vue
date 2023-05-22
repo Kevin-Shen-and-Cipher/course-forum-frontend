@@ -6,7 +6,7 @@
             </v-avatar>
         </v-toolbar-title>
         <div v-if="authStore.token" style="margin-right: 40px">
-            <a style="margin-right: 20px">{{ authStore.apartment }}</a>
+            <a style="margin-right: 20px">{{ authStore.department }}</a>
             <v-btn
                 variant="outlined"
                 color="rgba(70, 105,147, 1)"
@@ -37,18 +37,16 @@
 <script setup>
 import BarLogo from '@/assets/topbar_logo.png';
 import { useRoute, useRouter } from 'vue-router';
-import { computed } from 'vue';
-import { useAuthStore } from '@/store/auth';
-import { useAlertStore } from '@/store/alert';
+import { computed, onBeforeMount } from 'vue';
+import { useAuthStore } from '@/store/Auth.js';
+import { useAlertStore } from '@/store/Alert.js';
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
 const route = useRoute();
 const router = useRouter();
 const loginButton = computed(() => route.name === 'login');
 
-if (authStore.token != null){
-    authStore.verify();
-}
+
 
 function sendLogin() {
     router.push('/login');
@@ -67,4 +65,9 @@ function logout() {
 function backMain() {
     router.push('/');
 }
+onBeforeMount(()=>{
+    if (authStore.token != null){
+        authStore.verify();
+    }
+})
 </script>

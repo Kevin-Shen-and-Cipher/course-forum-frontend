@@ -35,14 +35,13 @@ import NoPost from '@/components/Home/NoPost.vue';
 import { usePostsStore } from '@/store/posts.js';
 
 import { useRouter } from 'vue-router';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onBeforeMount } from 'vue';
 defineEmits('update:tag');
 const router = useRouter();
 const postsStore = usePostsStore();
 const selectedData = ref([]);
 const tagData = ref([]);
 const searchInput = ref('');
-postsStore.fetchPosts();
 const postsData = computed(() => {
     if (postsStore.searchResult == null) {
         return {};
@@ -56,6 +55,8 @@ async function addPost() {
 watch([searchInput, selectedData, tagData], () => {
     postsStore.searchPosts(searchInput.value, selectedData.value, tagData.value);
 });
+
+onBeforeMount(async () => postsStore.fetchPosts());
 </script>
 
 <style scoped>

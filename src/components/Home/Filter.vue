@@ -52,10 +52,10 @@
     </div>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import { useTagsStore } from '@/store/Tags';
 const tagsStore = useTagsStore();
-tagsStore.fetchTags();
+
 const chips = ref([]);
 const apartment = ref(['資訊工程系', '機械工程系']);
 const selectedApartment = ref([]);
@@ -80,6 +80,7 @@ function removeInvaildChip(newVal, oldVal) {
 }
 
 watch(chips, removeInvaildChip);
+onBeforeMount(async () => tagsStore.fetchTags());
 </script>
 
 <style scoped>

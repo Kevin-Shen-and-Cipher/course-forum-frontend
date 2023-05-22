@@ -29,10 +29,10 @@ import Search from '@/components/Home/Search.vue';
 import TagsDataTable from '@/components/Admin/TagsDataTable.vue';
 import { useTagsStore } from '@/store/Tags.js';
 import TagsAdd from '@/components/Admin/TagsAdd.vue';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onBeforeMount } from 'vue';
 defineEmits(['update:selectedData', 'closeDialog']);
 const tagsStore = useTagsStore();
-tagsStore.fetchTags();
+
 const searchInput = ref('');
 const selectedData = ref([]);
 const buttonDisabled = computed(() => selectedData.value.length == 0);
@@ -42,6 +42,9 @@ function dialogAction(action) {
 }
 watch(searchInput, () => {
     tagsStore.searchtags(searchInput.value);
+});
+onBeforeMount(async () => {
+    tagsStore.fetchTags();
 });
 </script>
 <style scoped>

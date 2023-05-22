@@ -1,19 +1,19 @@
 <template>
     <div
-        v-if="postData.data"
+        v-if="postData"
         class="d-flex flex-column justify-center align-center"
         style="width: 100%; height: 100%"
     >
         <div class="content d-flex flex-column justify-end" style="height: 10%">
             <div class="d-flex align-end justify-space-between">
                 <PostCreatedDetail
-                    :show-date="postData.data.created_at.substring(0, 10)"
-                    :department="postData.data.create_by"
+                    :show-date="postData.created_at.substring(0, 10)"
+                    :department="postData.create_by"
                 />
-                <div class="d-flex" v-if="!postData.data.state">
+                <div class="d-flex" v-if="!postData.state">
                     <v-btn
                         size="large"
-                        @click="verifyPass"
+                        @click="passVerify([postData.id])"
                         color="green"
                         style="margin-right: 10px"
                     >
@@ -32,18 +32,18 @@
         <div class="content d-flex flex-column" style="height: 90%">
             <div class="d-flex align-center justify-space-between mb-6">
                 <v-label
-                    :text="postData.data.title"
+                    :text="postData.title"
                     style="font-size: 32pt; margin: 10px 0px"
                 ></v-label>
                 <div class="d-flex">
-                    <Rating :rating-readonly="true" :rating="postData.data.score" />
+                    <Rating :rating-readonly="true" :rating="postData.score" />
                 </div>
             </div>
             <v-field style="font-size: 16pt; color: black" variant="plain">
-                {{ postData.data.content }}
+                {{ postData.content }}
             </v-field>
             <div class="d-flex justify-space-between">
-                <ShowTgas :tagsData="postData.data.tags" />
+                <ShowTgas :tagsData="postData.tags" />
                 <v-btn
                     prepend-icon="mdi-keyboard-return"
                     variant="text"
@@ -60,46 +60,27 @@
 import Rating from '@/components/posts/Rating.vue';
 import ShowTgas from '@/components/posts/ShowTags.vue';
 import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
-import { useAlertStore } from '@/store/Alert.js';
-import { useRoute} from 'vue-router';
-import axios from 'axios';
-import { reactive, onBeforeMount } from 'vue';
+import { usePostsStore } from '@/store/Posts.js';
+import { useRoute } from 'vue-router';
+import { computed, onBeforeMount } from 'vue';
 
-const alertStroe = useAlertStore();
+const postsStore = usePostsStore();
 const route = useRoute();
-const postData = reactive({
-    data: null,
-    error: null,
-});
+const postData = computed(() => postsStore.post)
 
-async function verifyPass() {
-    try {
-        await axios.patch(import.meta.env.VITE_APP_API_URL + '/posts/' + route.params.id, {
-            state: true,
-        });
-        fetchPostData();
-        alertStroe.callAlert('審核通過');
-    } catch (error) {
-        alertStroe.callAlert(error.message, 'error');
-    }
-}
 
 function verifyDeny() {
     window.close();
 }
 
-async function fetchPostData() {
-    try {
-        const response = await axios.get(
-            import.meta.env.VITE_APP_API_URL + '/posts/' + route.params.id,
-        );
-        postData.data = response.data;
-    } catch (error) {
-        alertStroe.callAlert(error.message, 'error');
+async function passVerify(id){
+    if (await postsStore.verifySelectedPass([id])){
+        window.close();
+        
     }
 }
 
-onBeforeMount(fetchPostData);
+onBeforeMount(async () => postsStore.fetchPost(route.params.id));
 </script>
 
 <style scoped>

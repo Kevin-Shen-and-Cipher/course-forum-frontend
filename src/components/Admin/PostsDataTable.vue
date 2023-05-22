@@ -11,16 +11,16 @@
         @update:modelValue="$emit('update:selectedData', selected)"
     >
         <template v-slot:item.actions="{ item }">
-            <v-btn variant="text" @click="checkPost(item.raw.id)"> 查看文章 </v-btn>
+            <v-btn variant="text" @click="() => checkPost(item.raw.id)"> 查看文章 </v-btn>
             <v-btn
                 variant="text"
                 v-if="!item.raw.state"
                 color="success"
-                @click="postsStore.verifySelectedPass([item.raw.id])"
+                @click="() => postsStore.verifySelectedPass([item.raw.id])"
             >
                 通過審核
             </v-btn>
-            <v-btn variant="text" color="red" @click="postsStore.deletePosts([item.raw.id])">
+            <v-btn variant="text" color="red" @click="() => postsStore.deletePosts([item.raw.id])">
                 刪除文章
             </v-btn>
         </template>
