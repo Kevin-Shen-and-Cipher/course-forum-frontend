@@ -67,7 +67,7 @@ const post = reactive({
     content: '',
     score: 0,
     tags: [],
-    create_by: authStore.apartment,
+    create_by: authStore.department,
 });
 
 function backMain() {

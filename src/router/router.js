@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useAuthStore } from '@/store/auth.js';
-import { useAlertStore } from '@/store/alert.js';
+import { useAuthStore } from '@/store/Auth.js';
+import { useAlertStore } from '@/store/Alert.js';
 const routes = [
     {
         path: '/',
@@ -59,7 +59,7 @@ router.beforeEach((to) => {
     if (to.meta.requiredAuth) {
         const authStore = useAuthStore();
         const alertStore = useAlertStore();
-        if (!authStore.verify()) {
+        if (authStore.verify()) {
             alertStore.callAlert('請先登入', 'info');
             router.push('/home');
             return;

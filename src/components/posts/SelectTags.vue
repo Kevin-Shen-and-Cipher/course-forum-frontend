@@ -55,7 +55,6 @@ watch(chips, (newVal, oldVal) => {
                 return true;
             }
         });
-        console.log(chips.value.filter((chip) => !invalidChips.includes(chip)));
         //把不存在的tag移除
         chips.value = chips.value.filter((chip) => !invalidChips.includes(chip));
     }
