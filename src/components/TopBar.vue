@@ -55,8 +55,8 @@ function admin() {
 }
 
 function logout() {
-    authStore.removeAuth();
     backMain();
+    authStore.removeAuth();
     alertStore.callAlert('登出!');
 }
 

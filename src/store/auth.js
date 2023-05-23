@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { useAlertStore } from '@/store/alert.js';
-
 export const useAuthStore = defineStore({
     id: 'auth',
     persist: {
@@ -10,18 +9,18 @@ export const useAuthStore = defineStore({
         token: null,
         department: null,
         admin: false,
-        exp: null,
+        exp: 0,
     }),
     actions: {
-        async verify() {
+        verify() {
             const alertStore = useAlertStore();
             try {
-                const nowTime = Date.now();
-                if (nowTime / 1000 >= this.exp) {
+                const nowTime = Date.now() / 1000;
+                if (nowTime >= this.exp) {
                     this.removeAuth();
-                    return false;
+                    return true;
                 }
-                return true;
+                return false;
             } catch (error) {
                 alertStore.callAlert(error.message, 'error');
                 this.removeAuth();
@@ -31,7 +30,7 @@ export const useAuthStore = defineStore({
         async login(data) {
             const alertStore = useAlertStore();
             try {
-                return await fetch(import.meta.env.VITE_APP_API_URL + '/tags', {
+                return await fetch(import.meta.env.VITE_APP_API_URL + '/login', {
                     method: 'POST',
                     body: JSON.stringify(data + { name: 'test' }),
                 })
@@ -50,8 +49,8 @@ export const useAuthStore = defineStore({
                 alertStore.callAlert(error.message, 'error');
             }
         },
-        setAuth(token, apartment, identify, exp) {
-            this.department = apartment;
+        setAuth(token, department, identify, exp) {
+            this.department = department;
             this.token = token;
             if (identify === 'admin') {
                 this.admin = true;
@@ -61,10 +60,10 @@ export const useAuthStore = defineStore({
             this.exp = exp;
         },
         removeAuth() {
-            this.apartment = null;
+            this.department = null;
             this.token = null;
             this.admin = false;
-            this.exp = null;
+            this.exp = 0;
         },
     },
 });
