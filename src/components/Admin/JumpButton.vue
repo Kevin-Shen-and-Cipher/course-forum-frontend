@@ -17,6 +17,6 @@ function toTags() {
 </script>
 <style scope>
 .buttonGap {
-    margin: 0px 10px;
+    margin-right:10px;
 }
 </style>

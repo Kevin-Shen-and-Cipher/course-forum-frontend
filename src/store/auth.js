@@ -48,7 +48,7 @@ export const useAuthStore = defineStore({
             //     console.log(error);
             //     alertStore.callAlert(error.message, 'error');
             // }
-            this.setAuth("test", "資訊工程系", "user", "20000000000");
+            this.setAuth("test", "資訊工程系", "admin", "20000000000");
         },
         setAuth(token, department, identify, exp) {
             this.department = department;

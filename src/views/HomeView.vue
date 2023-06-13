@@ -1,37 +1,39 @@
 <template>
-    <div class="d-flex justify-center" style="width: 100%">
-        <div class="d-flex align-end flex-column" style="width: 30%">
-            <div class="d-flex justify-end" style="height: 100px"></div>
-            <Filter v-model:select="selectedData" v-model:tag="tagData" />
-        </div>
-        <div class="d-flex flex-column align-center justify-center">
-            <Search v-model="searchInput" />
-            <div class="scroll-container light" v-if="postsData.length != 0">
-                <Post v-for="post in postsData" :post="post" />
-            </div>
-            <div class="scroll-container light" v-else>
-                <NoPost />
-            </div>
-        </div>
-        <div class="d-flex justify-start align-end" style="width: 30%">
-            <div class="d-flex justify-center align-center" style="width: 100%; height: 20%">
-                <v-btn
-                    class="add-post-btn"
-                    icon="mdi-plus"
-                    size="large"
-                    color="#D9D9D9"
-                    @click="addPost"
-                />
-            </div>
-        </div>
-    </div>
+    <v-container style="">
+        <v-row>
+            <v-col cols="12" md="3"  class="d-flex align-center flex-column">
+                <div class="d-none d-xs-flex d-sm-flex justify-end" style="height: 150px"></div>
+                <Filter v-model:select="selectedData" v-model:tag="tagData" />
+            </v-col>
+            <v-col cols="12" md="6" class="d-flex flex-column">
+                <v-row class="d-flex justify-center align-end shrink">
+                    <v-col cols="11" md="10" lg="10">
+                        <Search v-model="searchInput" />
+                    </v-col>
+                </v-row>
+                <v-row class="d-flex justify-center grow">
+                    <v-col cols="11" md="12" class="d-flex flex-column scroll-container light">
+                        <Post v-for="post in postsData" :post="post" />
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
+    </v-container>
+    <v-sheet
+        position="fixed"
+        location="right bottom"
+        color="#0000"
+        style="margin: 80px 30px;"
+    
+    >
+        <v-btn class="add-post-btn" icon="mdi-plus" size="large" color="#D9D9D9" @click="addPost" />
+    </v-sheet>
 </template>
 
 <script setup>
 import Post from '@/components/Home/Post.vue';
 import Search from '@/components/Home/Search.vue';
 import Filter from '@/components/Home/Filter.vue';
-import NoPost from '@/components/Home/NoPost.vue';
 import { usePostsStore } from '@/store/posts.js';
 
 import { useRouter } from 'vue-router';

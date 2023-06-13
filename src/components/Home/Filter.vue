@@ -1,6 +1,6 @@
 <template>
-    <div class="d-flex flex-column" style="width: 250px">
-        <v-expansion-panels variant="popout" class="my-2">
+    <div class="d-flex flex-column" style="width: 100%;min-width: 200px;max-width: 300px">
+        <v-expansion-panels variant="popout"  class="my-2">
             <v-expansion-panel>
                 <v-expansion-panel-title> 系所 </v-expansion-panel-title>
                 <v-expansion-panel-text>
@@ -32,7 +32,8 @@
             label="標籤"
             multiple
             variant="solo"
-            style="margin: 15px"
+            style="margin: 15px 15px 0px 15px"
+            hide-details
             :return-object="false"
             @update:modelValue="$emit('update:tag', chips)"
         >
@@ -85,7 +86,6 @@ onBeforeMount(async () => tagsStore.fetchTags());
 
 <style scoped>
 .checkBox {
-    height: 45px;
     color: black;
 }
 </style>

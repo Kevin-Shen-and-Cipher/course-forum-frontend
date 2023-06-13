@@ -11,6 +11,7 @@
         multiple
         variant="solo"
         class="tags"
+        hide-detail
         :return-object="false"
         @update:modelValue="$emit('update:modelValue', chips)"
     >

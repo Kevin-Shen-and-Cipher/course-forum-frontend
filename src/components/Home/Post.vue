@@ -1,10 +1,10 @@
 <template>
-    <div class="post d-flex" @click="inPost">
+    <div class="post d-none d-sm-none d-md-flex" @click="inPost">
         <div class="d-flex align-center justify-center" style="width: 15%">
             <v-icon icon="mdi-forum" size="40"></v-icon>
         </div>
         <div class="d-flex" style="width: 60%">
-            <v-card color="transparent" border="0" variant="tonal">
+            <v-card color="transparent" variant="tonal">
                 <div class="v-card__text">
                     <v-card-title>
                         {{ post.title }}
@@ -31,6 +31,35 @@
             </div>
         </div>
     </div>
+    <div class="post d-flex d-sm-flex d-md-none" @click="inPost">
+        <v-col cols="8" class="d-flex">
+            <v-card color="transparent" variant="tonal">
+                <div class="v-card__text">
+                    <v-card-title>
+                        {{ post.title }}
+                    </v-card-title>
+                    <v-card-subtitle>
+                        {{ post.created_at.substring(0, 10) }}
+                    </v-card-subtitle>
+                    <v-card-text>
+                        {{ post.content }}
+                    </v-card-text>
+                    <v-chip
+                        v-for="i in post.tags"
+                        style="height: 20px; font-size: 8pt; margin: 5px"
+                    >
+                        {{ i.name }}
+                    </v-chip>
+                </div>
+            </v-card>
+        </v-col>
+        <v-col cols="4" class="d-flex align-center justify-end">
+            <div class="d-flex flex-column align-center justify-center">
+                <a>{{ post.views }}</a>
+                <a>Views</a>
+            </div>
+        </v-col>
+    </div>
 </template>
 <script setup>
 import router from '@/router/router';
@@ -49,8 +78,7 @@ function inPost() {
 .post {
     background-color: rgba(232, 230, 230, 1);
     height: 150px;
-    width: 650px;
-    margin: 20px;
+    margin-bottom: 20px;
     border-radius: 10px;
     transition: 0.5s;
 }

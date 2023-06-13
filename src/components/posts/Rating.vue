@@ -4,6 +4,7 @@
             v-model="rate"
             :readonly="ratingReadonly"
             hover
+            
             @update:modelValue="$emit('update:rating', rate)"
         ></v-rating>
     </v-row>

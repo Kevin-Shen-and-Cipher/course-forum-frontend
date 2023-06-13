@@ -1,9 +1,9 @@
 <template>
-    <div class="d-flex">
+    <v-col>
         <v-chip v-for="i in tagsData" v-if="tagsData" style="margin-left: 10px">
             #{{ i.name }}</v-chip
         >
-    </div>
+    </v-col>
 </template>
 <script setup>
 const props = defineProps({

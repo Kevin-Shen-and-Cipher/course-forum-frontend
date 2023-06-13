@@ -1,10 +1,7 @@
 <template>
-    <label class="d-none d-lg-flex justify-start" style="padding-left: 10px;"
+    <label class="d-flex justify-start" style="padding-left: 10px;"
         >{{ department }} &nbsp;&nbsp;&nbsp;{{ showDate }}</label
     >
-    <label class="d-flex d-lg-none justify-start">
-        {{ department }}<br>{{  showDate  }}
-    </label>
 </template>
 
 <script setup>
