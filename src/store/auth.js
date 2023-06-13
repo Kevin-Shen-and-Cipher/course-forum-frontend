@@ -29,25 +29,26 @@ export const useAuthStore = defineStore({
         },
         async login(data) {
             const alertStore = useAlertStore();
-            try {
-                return await fetch(import.meta.env.VITE_APP_API_URL + '/login', {
-                    method: 'POST',
-                    body: JSON.stringify(data + { name: 'test' }),
-                })
-                    .then((response) => {
-                        if (!response.ok) throw new Error(response.status);
-                        this.setAuth(data.token, data.apartment, data.identify, data.exp);
-                        alertStore.callAlert('登入成功');
-                        return true;
-                    })
-                    .catch((error) => {
-                        alertStore.callAlert('錯誤發生 請查看控制台', 'error');
-                        return false;
-                    });
-            } catch (error) {
-                console.log(error);
-                alertStore.callAlert(error.message, 'error');
-            }
+            // try {
+            //     return await fetch(import.meta.env.VITE_APP_API_URL + '/login', {
+            //         method: 'POST',
+            //         body: JSON.stringify(data + { name: 'test' }),
+            //     })
+            //         .then((response) => {
+            //             if (!response.ok) throw new Error(response.status);
+            //             this.setAuth(data.token, data.apartment, data.identify, data.exp);
+            //             alertStore.callAlert('登入成功');
+            //             return true;
+            //         })
+            //         .catch((error) => {
+            //             alertStore.callAlert('錯誤發生 請查看控制台', 'error');
+            //             return false;
+            //         });
+            // } catch (error) {
+            //     console.log(error);
+            //     alertStore.callAlert(error.message, 'error');
+            // }
+            this.setAuth("test", "資訊工程系", "user", "20000000000");
         },
         setAuth(token, department, identify, exp) {
             this.department = department;

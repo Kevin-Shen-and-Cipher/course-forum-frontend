@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <div class="d-flex flex-column" style="height: 100%">
+        <div class="d-flex flex-column" style="height: 100%;overflow-x: scroll;min-width: 1000px;">
             <div class="d-flex flex-column" style="height: 64px">
                 <top-bar />
             </div>
@@ -26,7 +26,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .main-section {
-    height: calc(90vh - 50px);
+    min-height: 100vh;
     margin: 20px;
 }
 </style>

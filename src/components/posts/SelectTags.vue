@@ -63,7 +63,6 @@ watch(chips, (newVal, oldVal) => {
 <style scoped>
 .tags {
     margin-left: 10px;
-    margin-bottom: 20px;
     font-size: 20pt;
 }
 </style>

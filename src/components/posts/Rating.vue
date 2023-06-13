@@ -1,11 +1,12 @@
 <template>
-    <label style="font-size: 14pt" v-if="!ratingReadonly">設定課程評分：</label>
-    <v-rating
-        v-model="rate"
-        :readonly="ratingReadonly"
-        hover
-        @update:modelValue="$emit('update:rating', rate)"
-    ></v-rating>
+    <v-row>
+        <v-rating
+            v-model="rate"
+            :readonly="ratingReadonly"
+            hover
+            @update:modelValue="$emit('update:rating', rate)"
+        ></v-rating>
+    </v-row>
 </template>
 <script setup>
 import { ref } from 'vue';
