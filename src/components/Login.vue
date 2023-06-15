@@ -7,7 +7,7 @@
                     <div class="d-flex flex-column align-center">
                         <v-text-field
                             label="學號"
-                            v-model="username"
+                            v-model="loginData.username"
                             variant="outlined"
                             style="width: 85%"
                         ></v-text-field>
@@ -15,7 +15,7 @@
                     <div class="d-flex flex-column align-center justify-center">
                         <v-text-field
                             label="密碼"
-                            v-model="password"
+                            v-model="loginData.password"
                             variant="outlined"
                             style="width: 85%"
                         ></v-text-field>
@@ -39,15 +39,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/store/Auth.js';
 const authStore = useAuthStore();
 const router = useRouter();
-const username = ref('');
-const password = ref('');
-function login() {
-    authStore.login({ account: username, password: password });
+const loginData = reactive({
+    username: '',
+    password: '',
+});
+async function login() {
+    await authStore.login(loginData);
     router.push('/home');
 }
 </script>

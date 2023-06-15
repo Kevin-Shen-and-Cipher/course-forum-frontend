@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia';
 import { useAlertStore } from '@/store/alert.js';
+async function login_fetch(){
+    
+}
 export const useAuthStore = defineStore({
     id: 'auth',
     persist: {
@@ -29,26 +32,25 @@ export const useAuthStore = defineStore({
         },
         async login(data) {
             const alertStore = useAlertStore();
-            // try {
-            //     return await fetch(import.meta.env.VITE_APP_API_URL + '/login', {
-            //         method: 'POST',
-            //         body: JSON.stringify(data + { name: 'test' }),
-            //     })
-            //         .then((response) => {
-            //             if (!response.ok) throw new Error(response.status);
-            //             this.setAuth(data.token, data.apartment, data.identify, data.exp);
-            //             alertStore.callAlert('登入成功');
-            //             return true;
-            //         })
-            //         .catch((error) => {
-            //             alertStore.callAlert('錯誤發生 請查看控制台', 'error');
-            //             return false;
-            //         });
-            // } catch (error) {
-            //     console.log(error);
-            //     alertStore.callAlert(error.message, 'error');
-            // }
-            this.setAuth("test", "資訊工程系", "admin", "20000000000");
+            try {
+                return await fetch(import.meta.env.VITE_APP_API_URL + '/login', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                })
+                    .then((response) => {
+                        if (!response.ok) throw new Error(response.status);
+                        this.setAuth(response.json().token, response.json().apartment, response.json().identify, response.json().exp);
+                        alertStore.callAlert('登入成功');
+                        return true;
+                    })
+                    .catch((error) => {
+                        alertStore.callAlert('錯誤發生 請查看控制台', 'error');
+                        return false;
+                    });
+            } catch (error) {
+                console.log(error);
+                alertStore.callAlert(error.message, 'error');
+            }
         },
         setAuth(token, department, identify, exp) {
             this.department = department;
