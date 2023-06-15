@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAlertStore } from '@/store/alert.js';
+import { VITE_APP_API_URL } from '@/config.js';
 async function login_fetch(){
     
 }
@@ -33,17 +34,21 @@ export const useAuthStore = defineStore({
         async login(data) {
             const alertStore = useAlertStore();
             try {
-                return await fetch(import.meta.env.VITE_APP_API_URL + '/login', {
+                return await fetch(VITE_APP_API_URL + "/login", {
                     method: 'POST',
                     body: JSON.stringify(data),
+                    headers:{
+                        "content-Type":"application/json"
+                    }
                 })
                     .then((response) => {
                         if (!response.ok) throw new Error(response.status);
-                        this.setAuth(response.json().token, response.json().apartment, response.json().identify, response.json().exp);
+                        return response.json();
+                    }).then((data)=>{
+                        this.setAuth(data.token, data.department, data.identify, data.exp);
                         alertStore.callAlert('登入成功');
                         return true;
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         alertStore.callAlert('錯誤發生 請查看控制台', 'error');
                         return false;
                     });
