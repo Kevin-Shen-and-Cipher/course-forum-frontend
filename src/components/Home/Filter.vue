@@ -32,7 +32,7 @@
             label="標籤"
             multiple
             variant="solo"
-            style="margin: 15px 15px 0px 15px"
+            class="mx-4 mt-4"
             hide-details
             :return-object="false"
             @update:modelValue="$emit('update:tag', chips)"

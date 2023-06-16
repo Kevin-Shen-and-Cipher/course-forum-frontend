@@ -2,7 +2,7 @@
     <v-app>
         <v-layout>
             <top-bar />
-            <v-main style="min-height: 100vh;">
+            <v-main class="h-sm-100 h-md-screen">
                 <PopOut />
                 <router-view />
             </v-main>

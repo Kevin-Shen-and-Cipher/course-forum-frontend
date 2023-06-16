@@ -1,8 +1,7 @@
 <template>
-    <v-container style="">
+    <v-container>
         <v-row>
-            <v-col cols="12" md="3"  class="d-flex align-center flex-column">
-                <div class="d-none d-md-flex d-lg-flex justify-end" style="height: 150px"></div>
+            <v-col cols="12" md="3" class="d-flex align-center flex-column">
                 <Filter v-model:select="selectedData" v-model:tag="tagData" />
             </v-col>
             <v-col cols="12" md="6" class="d-flex flex-column">
@@ -19,13 +18,7 @@
             </v-col>
         </v-row>
     </v-container>
-    <v-sheet
-        position="fixed"
-        location="right bottom"
-        color="#0000"
-        style="margin: 80px 30px;"
-    
-    >
+    <v-sheet position="fixed" location="right bottom" color="#0000" style="margin: 80px 30px">
         <v-btn class="add-post-btn" icon="mdi-plus" size="large" color="#D9D9D9" @click="addPost" />
     </v-sheet>
 </template>
@@ -64,7 +57,7 @@ onBeforeMount(async () => postsStore.fetchPosts());
 <style scoped>
 .scroll-container {
     overflow-y: scroll;
-    height: 80vh;
+    height: 75vh;
 }
 
 .light::-webkit-scrollbar {

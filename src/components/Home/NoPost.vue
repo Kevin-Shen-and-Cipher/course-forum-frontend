@@ -1,6 +1,6 @@
 <template>
     <div class="post d-flex">
-        <div class="d-flex justify-center align-center" style="width: 100%">
+        <div class="d-flex justify-center align-center w-100">
             <a>查無貼文</a>
         </div>
     </div>

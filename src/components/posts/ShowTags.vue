@@ -1,6 +1,6 @@
 <template>
     <v-col>
-        <v-chip v-for="i in tagsData" v-if="tagsData" style="margin-left: 10px">
+        <v-chip class="mr-3" v-for="i in tagsData" v-if="tagsData">
             #{{ i.name }}</v-chip
         >
     </v-col>

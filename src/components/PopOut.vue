@@ -1,7 +1,7 @@
 <template>
-    <v-sheet position="fixed" location="right top" color="#0000" style="margin: 80px 30px">
+    <v-sheet class="alert" position="fixed" location="right top" color="#0000">
         <v-alert
-            class="alert"
+            class="w-auto"
             :type="alertStore.type"
             :text="alertStore.text"
             v-model="alertStore.show"
@@ -16,10 +16,7 @@ const alertStore = useAlertStore();
 
 <style scoped>
 .alert {
-    z-index: 1;
-    position: absolute;
-    width: 300px;
-    right: 40px;
-    transition: 1s;
+    z-index: 1001;
+    margin: 80px 30px;
 }
 </style>

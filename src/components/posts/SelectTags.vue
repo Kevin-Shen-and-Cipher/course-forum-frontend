@@ -10,7 +10,7 @@
         :label="label"
         multiple
         variant="solo"
-        class="tags"
+        class="ml-2"
         hide-detail
         :return-object="false"
         @update:modelValue="$emit('update:modelValue', chips)"
@@ -61,9 +61,3 @@ watch(chips, (newVal, oldVal) => {
     }
 });
 </script>
-<style scoped>
-.tags {
-    margin-left: 10px;
-    font-size: 20pt;
-}
-</style>

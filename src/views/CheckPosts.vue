@@ -3,7 +3,7 @@
         <v-row class="d-flex align-center">
             <v-col cols="8" offset="2">
                 <v-row>
-                    <v-col class="content d-flex flex-column justify-end" style="margin-top: 50px">
+                    <v-col class="d-flex flex-column justify-end mt-5" >
                         <div class="d-flex align-end">
                             <PostCreatedDetail
                                 :show-date="postData.created_at.substring(0, 10)"
@@ -12,9 +12,8 @@
                         </div>
                         <v-divider
                             :thickness="4"
-                            class="border-opacity-100"
+                            class="border-opacity-100 my-2 mx-0"
                             color="grey"
-                            style="margin: 5px 0px"
                         />
                     </v-col>
                 </v-row>
@@ -22,7 +21,7 @@
                     <v-col cols="12" md="8">
                         <v-label
                             :text="postData.title"
-                            style="font-size: 32pt; margin: 10px 0px"
+                            class="text-h3 my-2 mx-0"
                         ></v-label>
                     </v-col>
                     <v-col cols="12" md="4" class="d-flex jutify-center align-center">
@@ -34,7 +33,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <v-field style="font-size: 16pt; color: black" variant="plain">
+                        <v-field class="text-black text-body-1" variant="plain">
                             {{ postData.content }}
                         </v-field>
                     </v-col>
@@ -67,9 +66,3 @@ async function passVerify(id) {
 
 onBeforeMount(async () => postsStore.fetchPost(route.params.id));
 </script>
-
-<style scoped>
-.content {
-    width: 60%;
-}
-</style>

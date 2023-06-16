@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-colume">
-        <v-btn class="buttonGap" @click="toPost()"> 貼文管理 </v-btn>
-        <v-btn class="buttonGap" @click="toTags()"> 標籤管理 </v-btn>
+        <v-btn class="mr-4" @click="toPost()"> 貼文管理 </v-btn>
+        <v-btn @click="toTags()"> 標籤管理 </v-btn>
     </div>
 </template>
 
@@ -15,8 +15,3 @@ function toTags() {
     router.push('/admin/tags');
 }
 </script>
-<style scope>
-.buttonGap {
-    margin-right:10px;
-}
-</style>

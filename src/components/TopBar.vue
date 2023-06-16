@@ -1,36 +1,46 @@
 <template>
-    <v-app-bar app absolute color="rgba(189, 212,239, 1)">
+    <v-app-bar color="blue-lighten-4">
         <v-toolbar-title>
             <v-avatar size="80">
-                <img :src="BarLogo" alt="Logo" style="float: left" @click="backMain" />
+                <img :src="BarLogo" class="float-left" alt="Logo" @click="backMain" />
             </v-avatar>
         </v-toolbar-title>
-        <div v-if="authStore.token" style="margin-right: 40px">
-            <a style="margin-right: 20px">{{ authStore.department }}</a>
-            <v-btn
-                variant="outlined"
-                color="rgba(70, 105,147, 1)"
-                @click="admin"
-                style="margin-right: 10px"
-                v-if="authStore.admin"
-            >
-                管理員
-            </v-btn>
-            <v-btn variant="outlined" color="rgba(70, 105,147, 1)" @click="logout"> 登出 </v-btn>
-        </div>
-        <div v-else style="margin-right: 40px">
-            <v-btn
-                v-if="!loginButton"
-                variant="outlined"
-                color="rgba(70, 105,147, 1)"
-                @click="sendLogin"
-            >
-                登入
-            </v-btn>
-            <v-btn v-else variant="outlined" color="rgba(70, 105,147, 1)" @click="backMain">
-                返回首頁
-            </v-btn>
-        </div>
+        <v-row>
+            <v-col class="d-flex justify-end" cols="12">
+                <v-row v-if="authStore.token" class="d-flex justify-end mr-3">
+                    <a class="mr-5 d-flex align-center">{{ authStore.department }}</a>
+                    <v-btn
+                        variant="outlined"
+                        class="mr-2"
+                        color="rgba(70, 105,147, 1)"
+                        @click="admin"
+                        v-if="authStore.admin"
+                    >
+                        管理員
+                    </v-btn>
+                    <v-btn
+                        variant="outlined"
+                        color="rgba(70, 105,147, 1)"
+                        @click="logout"
+                    >
+                        登出
+                    </v-btn>
+                </v-row>
+                <v-row v-else class="d-flex justify-end mr-3">
+                    <v-btn
+                        v-if="!loginButton"
+                        variant="outlined"
+                        color="rgba(70, 105,147, 1)"
+                        @click="sendLogin"
+                    >
+                        登入
+                    </v-btn>
+                    <v-btn v-else variant="outlined" color="rgba(70, 105,147, 1)" @click="backMain">
+                        返回首頁
+                    </v-btn>
+                </v-row>
+            </v-col>
+        </v-row>
     </v-app-bar>
 </template>
 
