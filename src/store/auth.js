@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { useAlertStore } from '@/store/alert.js';
+import { VITE_APP_API_URL } from '@/config.js';
+async function login_fetch() {}
 export const useAuthStore = defineStore({
     id: 'auth',
     persist: {
@@ -30,23 +32,28 @@ export const useAuthStore = defineStore({
         async login(data) {
             const alertStore = useAlertStore();
             try {
-                return await fetch(import.meta.env.VITE_APP_API_URL + '/login', {
+                return await fetch('http://auth.course-forum.ian-shen.live/login', {
                     method: 'POST',
-                    body: JSON.stringify(data + { name: 'test' }),
+                    body: JSON.stringify(data),
+                    headers: {
+                        'content-Type': 'application/json',
+                    },
                 })
                     .then((response) => {
+                        if (response.status >= 400) throw new Error(response.status);
                         if (!response.ok) throw new Error(response.status);
-                        this.setAuth(data.token, data.apartment, data.identify, data.exp);
+                        return response.json();
+                    })
+                    .then((data) => {
+                        this.setAuth(data.token, data.department, data.identify, data.exp);
                         alertStore.callAlert('登入成功');
-                        return true;
+                        return { status: true, statusCode: 200};
                     })
                     .catch((error) => {
-                        alertStore.callAlert('錯誤發生 請查看控制台', 'error');
-                        return false;
+                        return { status: false, statusCode: error };
                     });
             } catch (error) {
                 console.log(error);
-                alertStore.callAlert(error.message, 'error');
             }
         },
         setAuth(token, department, identify, exp) {

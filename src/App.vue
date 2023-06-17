@@ -1,17 +1,15 @@
 <template>
     <v-app>
-        <div class="d-flex flex-column" style="height: 100%">
-            <div class="d-flex flex-column" style="height: 64px">
-                <top-bar />
-            </div>
-            <div class="d-flex main-section">
+        <v-layout>
+            <top-bar />
+            <v-main class="h-sm-100 h-md-screen">
                 <PopOut />
                 <router-view />
-            </div>
-            <div class="d-flex" style="height: 64px">
+            </v-main>
+            <v-app-bar location="bottom">
                 <Footer />
-            </div>
-        </div>
+            </v-app-bar>
+        </v-layout>
     </v-app>
 </template>
 <script setup>
@@ -24,9 +22,3 @@ onMounted(() => {
     document.title = import.meta.env.VITE_APP_TITLE;
 });
 </script>
-<style scoped>
-.main-section {
-    height: calc(90vh - 50px);
-    margin: 20px;
-}
-</style>

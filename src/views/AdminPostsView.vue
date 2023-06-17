@@ -1,30 +1,43 @@
 <template>
-    <div class="d-flex justify-center" style="width: 100%">
-        <div class="d-flex flex-column" style="width: 80%; padding-top: 60px">
-            <JumpButton />
-            <div class="d-flex justify-space-between align-center" style="padding-left: 10px">
-                <Search v-model="searchInput" />
-                <div class="d-flex justify-space-between">
-                    <v-btn
-                        style="margin-right: 20px"
-                        color="green"
-                        :disabled="buttonDisabled"
-                        @click="postsStore.verifySelectedPass(selectedData)"
-                        >勾選審核</v-btn
-                    >
-                    <v-btn
-                        color="red"
-                        :disabled="buttonDisabled"
-                        @click="postsStore.deletePosts(selectedData)"
-                        >勾選刪除</v-btn
-                    >
-                </div>
-            </div>
-            <div class="d-flex scroll-container" v-if="postsStore.searchResult">
-                <PostsDataTable v-model:selectedData="selectedData" :searchInput="searchInput" />
-            </div>
-        </div>
-    </div>
+    <v-container>
+        <v-row class="d-flex justify-center">
+            <v-col cols="11" md="10" class="d-flex justify-center flex-column">
+                <v-row class="pt-2">
+                    <v-col>
+                        <JumpButton />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" md="4" class="d-flex align-center pl-3">
+                        <Search v-model="searchInput" />
+                    </v-col>
+                    <v-col cols="12" md="4" offset-md="4" class="d-flex align-center justify-end">
+                        <v-btn
+                            class="mr-2"
+                            color="green"
+                            :disabled="buttonDisabled"
+                            @click="postsStore.verifySelectedPass(selectedData)"
+                            >勾選審核</v-btn
+                        >
+                        <v-btn
+                            color="red"
+                            :disabled="buttonDisabled"
+                            @click="postsStore.deletePosts(selectedData)"
+                            >勾選刪除</v-btn
+                        >
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col class="d-flex align-start" v-if="postsStore.searchResult">
+                        <PostsDataTable
+                            v-model:selectedData="selectedData"
+                            :searchInput="searchInput"
+                        />
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script setup>
@@ -49,10 +62,6 @@ onBeforeMount(async () => postsStore.fetchPosts());
 </script>
 
 <style scoped>
-.scroll-container {
-    overflow-y: scroll;
-}
-
 .light::-webkit-scrollbar {
     width: 15px;
 }

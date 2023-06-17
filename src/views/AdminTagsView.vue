@@ -1,27 +1,38 @@
 <template>
-    <div class="d-flex justify-center" style="width: 100%">
-        <div class="d-flex flex-column" style="width: 80%; padding-top: 60px">
-            <JumpButton />
-            <div class="d-flex justify-space-between align-center" style="padding-left: 10px">
-                <div class="d-flex align-center">
-                    <Search v-model="searchInput" />
-                    <v-btn style="margin-left: 20px" @click="dialogAction(true)">新增標籤</v-btn>
-                    <TagsAdd v-model="showDialog" @dialogAction="dialogAction" />
-                </div>
-                <div class="d-flex">
-                    <v-btn
-                        color="red"
-                        :disabled="buttonDisabled"
-                        @click="tagsStore.deleteTags(selectedData)"
-                        >勾選刪除</v-btn
-                    >
-                </div>
-            </div>
-            <div class="d-flex scroll-container" v-if="tagsStore.searchResult">
-                <TagsDataTable v-model:selectedData="selectedData" :searchInput="searchInput" />
-            </div>
-        </div>
-    </div>
+    <v-container>
+        <v-row class="d-flex justify-center">
+            <v-col cols="11" md="10" class="d-flex justify-center flex-column">
+                <v-row class="pt-2">
+                    <v-col>
+                        <JumpButton />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" md="6" class="d-flex align-center pl-3">
+                        <Search v-model="searchInput" />
+                        <TagsAdd v-model="showDialog" @dialogAction="dialogAction" />
+                        <v-btn class="mx-2" @click="dialogAction(true)">新增標籤</v-btn>
+                    </v-col>
+                    <v-col cols="12" md="4" offset-md="2" class="d-flex align-center justify-end">
+                        <v-btn
+                            color="red"
+                            :disabled="buttonDisabled"
+                            @click="tagsStore.deleteTags(selectedData)"
+                            >勾選刪除</v-btn
+                        >
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" class="d-flex scroll-container" v-if="tagsStore.searchResult">
+                        <TagsDataTable
+                            v-model:selectedData="selectedData"
+                            :searchInput="searchInput"
+                        />
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 <script setup>
 import JumpButton from '@/components/Admin/JumpButton.vue';

@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-center align-center search">
+    <div class="d-flex align-center w-100">
         <v-text-field
             density="compact"
             variant="solo"
@@ -16,9 +16,3 @@
 defineProps(['modelValue']);
 defineEmits(['update:modelValue']);
 </script>
-<style scoped>
-.search {
-    width: 400px;
-    height: 90px;
-}
-</style>

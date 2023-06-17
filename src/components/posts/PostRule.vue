@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-column" style="width: 27%; padding-left: 20px">
+    <div class="d-flex flex-column " style="width: 27%; padding-left: 20px">
         <label class="d-flex align-center" style="font-size: 16pt; height: 50px; padding-top: 20px">
             <v-icon>mdi-shield-alert-outline</v-icon>
             文章規範</label

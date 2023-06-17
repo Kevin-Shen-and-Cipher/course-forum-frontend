@@ -1,10 +1,13 @@
 <template>
-    <label class="d-flex justify-start" style="padding-left: 10px; font-size: 14pt"
+    <label class="d-flex justify-start pl-1"
         >{{ department }} &nbsp;&nbsp;&nbsp;{{ showDate }}</label
     >
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import { useDisplay } from 'vuetify';
+const { mdAndUp } = useDisplay();
 const props = defineProps({
     department: {
         type: String,
@@ -14,5 +17,8 @@ const props = defineProps({
         type: String,
         required: true,
     },
+});
+onMounted(() => {
+    console.log(mdAndUp);
 });
 </script>
