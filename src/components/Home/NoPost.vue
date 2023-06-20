@@ -1,18 +1,23 @@
 <template>
-    <div class="post d-flex">
-        <div class="d-flex justify-center align-center w-100">
-            <a>查無貼文</a>
-        </div>
-    </div>
+    <v-sheet
+            class="post d-flex mb-4 rounded-lg"
+            v-bind="props"
+            :color="isHovering ? 'grey-lighten-1' : 'grey-lighten-2'"
+        >
+            <v-col class="d-none d-md-flex d-lg-flex align-center justify-center" cols="2">
+                <v-icon icon="mdi-forum" size="40"></v-icon>
+            </v-col>
+            <v-col class="d-flex pa-1" cols="8">
+                <v-card color="transparent" variant="tonal">
+                    <div class="text-black">
+                        <v-card-text>
+                            無貼文
+                        </v-card-text>
+                    </div>
+                </v-card>
+            </v-col>
+            <v-col class="d-flex align-center justify-end" cols="4" md="2" lg="2" xl="2">
+            </v-col>
+        </v-sheet>
 </template>
 <script setup></script>
-<style scoped>
-.post {
-    background-color: rgba(232, 230, 230, 1);
-    height: 50px;
-    width: 650px;
-    margin: 20px;
-    border-radius: 10px;
-    transition: 0.5s;
-}
-</style>
