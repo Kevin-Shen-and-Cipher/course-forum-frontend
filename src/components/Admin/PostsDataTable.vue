@@ -38,6 +38,7 @@ const headers = ref([
     { title: '文章名稱', align: 'start', key: 'title' },
     { title: '狀態', align: 'end', key: 'verify' },
     { title: '日期', align: 'end', key: 'created_at' },
+    { title: '文本情感分數', align: 'end', key: 'sentiment_score' },
     { title: '操作', align: 'end', key: 'actions' },
 ]);
 const selected = ref([]);
