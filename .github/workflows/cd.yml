@@ -25,6 +25,6 @@ jobs:
             git pull
             docker-compose restart
             docker-compose exec -it course-forum sh
+            composer install
             npm run build
             exit
-            
