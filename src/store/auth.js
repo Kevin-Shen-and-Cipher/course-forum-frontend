@@ -40,8 +40,7 @@ export const useAuthStore = defineStore({
                     },
                 })
                     .then((response) => {
-                        if (response.status >= 400) throw new Error(response.status);
-                        if (!response.ok) throw new Error(response.status);
+                        if (!response.ok || response.status != 200) throw new Error(response.status);
                         return response.json();
                     })
                     .then((data) => {

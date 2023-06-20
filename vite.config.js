@@ -20,5 +20,5 @@ export default defineConfig({
     define: {
         'process.env':{}
     },
-    base:"/"
+    meta: {action:'read', subject:'Auth'},
 });
