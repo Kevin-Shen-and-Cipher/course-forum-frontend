@@ -11,8 +11,11 @@
                     </v-col>
                 </v-row>
                 <v-row class="d-flex justify-center grow">
-                    <v-col cols="11" md="12" class="d-flex flex-column scroll-container light">
+                    <v-col v-if="!postsData" cols="11" md="12" class="d-flex flex-column scroll-container light">
                         <Post v-for="post in postsData" :post="post" />
+                    </v-col>
+                    <v-col v-else>
+                        <NoPost />
                     </v-col>
                 </v-row>
             </v-col>
@@ -25,10 +28,10 @@
 
 <script setup>
 import Post from '@/components/Home/Post.vue';
+import NoPost from '@/components/Home/NoPost.vue';
 import Search from '@/components/Home/Search.vue';
 import Filter from '@/components/Home/Filter.vue';
 import { usePostsStore } from '@/store/posts.js';
-
 import { useRouter } from 'vue-router';
 import { ref, watch, computed, onBeforeMount } from 'vue';
 defineEmits('update:tag');
