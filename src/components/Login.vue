@@ -83,7 +83,7 @@ async function login(event) {
         console.log(fetchResult.statusCode);
         if (fetchResult.status) {
             router.push('/home');
-        } else if (fetchResult.statusCode == 400) {
+        } else {
             alertStore.callAlert('帳號密碼錯誤', 'error');
         }
     }
