@@ -23,8 +23,7 @@ jobs:
         script: |
             cd /var/www/course-forum-frontend
             git pull
-            docker-compose restart
+            docker-compose up -d --build
             docker-compose exec -it course-forum sh
-            composer install
             npm run build
             exit
