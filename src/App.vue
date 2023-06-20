@@ -6,8 +6,10 @@
                 <PopOut />
                 <router-view />
             </v-main>
-            <v-app-bar location="bottom">
-                <Footer />
+            <v-app-bar  location="bottom" color="blue-lighten-4">
+                <v-app-var-title class="text-black text-body-1 ml-5">
+                    2023 - class project by 沈育安 and 劉官瑜
+                </v-app-var-title>
             </v-app-bar>
         </v-layout>
     </v-app>
