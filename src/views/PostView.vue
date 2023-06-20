@@ -19,10 +19,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="12" md="8">
-                        <v-label
-                            :text="postStore.post.title"
-                            class="text-h3 my-2 mx-0"
-                        ></v-label>
+                        <v-field class="text-h5 text-lg-h4 text-md-h4 my-2 mx-0"  variant="flat">{{ postStore.post.title }}</v-field>
                     </v-col>
                     <v-col cols="12" md="4" class="d-flex jutify-center align-center">
                         <Rating :rating-readonly="true" :rating="postStore.post.score" />
