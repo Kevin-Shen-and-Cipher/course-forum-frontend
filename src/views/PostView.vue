@@ -44,7 +44,7 @@ import Rating from '@/components/posts/Rating.vue';
 import ShowTgas from '@/components/posts/ShowTags.vue';
 import PostCreatedDetail from '@/components/posts/PostCreatedDetail.vue';
 import { useRoute, useRouter } from 'vue-router';
-import { usePostsStore } from '@/store/posts';
+import { usePostsStore } from '@/store/Posts.js';
 
 const route = useRoute();
 const router = useRouter();
