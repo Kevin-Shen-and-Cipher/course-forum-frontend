@@ -10,6 +10,21 @@ export async function get() {
         headers: { Authorization: 'Bearer ' + authStore.token },
     })
         .then((response) => handleErrors(response, true))
+        .then((json) => {
+            for (var i = 0; i < json.length; i++) {
+                json[i]["sentiment_score"] *= 100;
+                json[i]["sentiment_score"] = Math.round(json[i]["sentiment_score"]);
+            }
+            
+            json.sort(function (a, b) {
+                var keyA = new Date(a.updated_at),
+                    keyB = new Date(b.updated_at);
+                if (keyA < keyB) return 1;
+                if (keyA > keyB) return -1;
+                return 0;
+            });
+            return json;
+        })
         .catch((error) => errorHappen(error));
 }
 

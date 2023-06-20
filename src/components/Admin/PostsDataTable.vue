@@ -30,7 +30,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { ref, watch, computed } from 'vue';
-import { usePostsStore } from '@/store/posts';
+import { usePostsStore } from '@/store/Posts.js';
 const router = useRouter();
 const postsStore = usePostsStore();
 defineEmits(['update:selectedData']);
