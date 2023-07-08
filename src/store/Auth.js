@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useAlertStore } from '@/store/alert.js';
+import { useAlertStore } from '@/store/Alert.js';
 import { VITE_APP_API_URL } from '@/config.js';
 async function login_fetch() {}
 export const useAuthStore = defineStore({
